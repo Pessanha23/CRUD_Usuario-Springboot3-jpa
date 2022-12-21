@@ -12,14 +12,16 @@ public class Usuario {
     private Long id;
     private String email;
     private String senha;
+    private String confirmacaoSenha;
 
     public Usuario() {
     }
 
-    public Usuario(Long id, String email, String senha) {
+    public Usuario(Long id, String email, String senha, String confirmacaoSenha) {
         this.id = id;
         this.email = email;
         this.senha = senha;
+        this.confirmacaoSenha = confirmacaoSenha;
     }
 
     public Long getId() {
@@ -44,6 +46,14 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getConfirmacaoSenha() {
+        return confirmacaoSenha;
+    }
+
+    public void setConfirmacaoSenha(String confirmacaoSenha) {
+        this.confirmacaoSenha = confirmacaoSenha;
     }
 
     @Override
