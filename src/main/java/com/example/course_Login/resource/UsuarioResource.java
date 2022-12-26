@@ -2,6 +2,7 @@ package com.example.course_Login.resource;
 
 import com.example.course_Login.entities.Usuario;
 import com.example.course_Login.service.UsuarioService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,18 @@ public class UsuarioResource {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Usuario> findById(@PathVariable Long id) {
-        Usuario obj = (Usuario) service.findById(id);
+    public ResponseEntity<Usuario> buscarId(@PathVariable(value = "id") Long id) {
+        Usuario obj = service.findById(id);
+        return ResponseEntity.ok().body(obj);
+    }
+    /*
+    http://localhost:8080/usuarios/3
+    http://localhost:8080/usuarios/negao.pessanga@gmail.com
+    find?email=negao.pessanga@gmail.com
+     */
+    @GetMapping(value = "/find")
+    public ResponseEntity<Usuario> buscarEmail(@RequestParam String email) {
+        Usuario obj = service.findByEmail(email);
         return ResponseEntity.ok().body(obj);
     }
 
@@ -48,5 +59,4 @@ public class UsuarioResource {
         obj = service.update(id,obj);
         return ResponseEntity.ok().body(obj);
     }
-
 }
