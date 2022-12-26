@@ -1,8 +1,8 @@
 package com.example.course_Login.service.exceptions;
 
-public class SenhaExistente extends RuntimeException{
+public class SenhaExistenteException extends RuntimeException{
 
-    public SenhaExistente(Object senha){
+    public SenhaExistenteException(Object senha){
         super("SENHA EXISTENTE!! MODIFIQUE SUA SENHA");
     }
 }
