@@ -12,7 +12,7 @@
 **TIPOS DE ERROS A SEREM TRATADOS NO CRUD BY: PARDAL**
 
 * 1°Desafio: Ajustar campo senha na atualizacao p/ que possa repetir a mesma senha anterior do usuario, mesmo nao podendo colocar a senha similar de novos usuarios;
-* 2°Desafio: Buscar pelo endereço do localhost o campo email;
+* 2°Desafio: Buscar pelo endereço do localhost o campo email; (CHECK)
 * 3°Desafio: Quando atualizar com a mesma senha, email, ou confirmacao de email, devera retornar 200(Sucessfull) o Json;
 * 4°Desafio: Se algum dos campos estiver vazio devera retornar um erro;
 * 5°Desafio: Reduzir, o Handler, ou seja, diminuir a quantidade de metodos de tratativas de erro para apenas um ou dois, criar uma logica que atenda a maioria dos erros e retorne Sucessfull;

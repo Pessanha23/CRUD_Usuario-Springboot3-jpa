@@ -1,9 +1,6 @@
 package com.example.course_Login.resource.exceptions;
 
-import com.example.course_Login.service.exceptions.EmailIgualException;
-import com.example.course_Login.service.exceptions.IdNaoEncontradoException;
-import com.example.course_Login.service.exceptions.SenhaDiferenteException;
-import com.example.course_Login.service.exceptions.SenhaExistenteException;
+import com.example.course_Login.service.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +24,15 @@ public class ResourceExceptionHandler {
     @ExceptionHandler(IdNaoEncontradoException.class)
     public ResponseEntity<StandardError> idNaoEncontrado(IdNaoEncontradoException e, HttpServletRequest request){
         String error = "ID NOT FOUND";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(Instant.now(),status.value(), error, e.getMessage(),request.getRequestURI());
+
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(EmailNaoEncontradoException.class)
+    public ResponseEntity<StandardError> EmailNaoEncontradoException(EmailNaoEncontradoException e, HttpServletRequest request){
+        String error = "EMAIL NOT FOUND";
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError err = new StandardError(Instant.now(),status.value(), error, e.getMessage(),request.getRequestURI());
 

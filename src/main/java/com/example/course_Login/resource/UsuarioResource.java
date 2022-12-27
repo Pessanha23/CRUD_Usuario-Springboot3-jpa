@@ -35,7 +35,7 @@ public class UsuarioResource {
     find?email=negao.pessanga@gmail.com
      */
     @GetMapping(value = "/find")
-    public ResponseEntity<Usuario> buscarEmail(@RequestParam String email) {
+    public ResponseEntity<Usuario> buscarEmail(@RequestParam(required = false) String email) {
         Usuario obj = service.findByEmail(email);
         return ResponseEntity.ok().body(obj);
     }
