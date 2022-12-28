@@ -24,6 +24,7 @@ public class UsuarioService {
         Optional<Usuario> obj = repository.findById(id);
         return obj.orElseThrow(() -> new IdNaoEncontradoException(id));
     }
+
     public Usuario findByEmail(String email) {
         Optional<Usuario> obj = repository.findByEmail(email);
         return obj.orElseThrow(() -> new EmailNaoEncontradoException(email));
@@ -32,7 +33,7 @@ public class UsuarioService {
     public Usuario insert(Usuario obj) {
         List<Usuario> recebaEmail = repository.findAll();
 
-        if(!obj.getSenha().equals(obj.getConfirmacaoSenha())){
+        if (!obj.getSenha().equals(obj.getConfirmacaoSenha())) {
             throw new SenhaDiferenteException(obj);
         }
 
@@ -53,31 +54,33 @@ public class UsuarioService {
 
     public Usuario update(Long id, Usuario obj) {
         List<Usuario> recebaEmail = repository.findAll();
+        Usuario entity = repository.getReferenceById(id);
+
+        if (!id.equals(repository.getReferenceById(id).getId())){
+            throw new IdNaoEncontradoException(id);
+        }
 
         if (!obj.getSenha().equals(obj.getConfirmacaoSenha())) {
             throw new SenhaDiferenteException(obj);
         }
 
         for (Usuario usuario : recebaEmail) {
-            if (obj.getEmail().equalsIgnoreCase(usuario.getEmail())) {
+            if (obj.getEmail().equalsIgnoreCase(usuario.getEmail()) && !obj.getEmail().equals(repository.getReferenceById(id).getEmail())) {
                 throw new EmailIgualException(obj);
             }
-            if (obj.getSenha().equalsIgnoreCase(usuario.getSenha())) {
+            if (obj.getSenha().equalsIgnoreCase(usuario.getSenha()) && !obj.getSenha().equals(repository.getReferenceById(id).getSenha())) {
                 throw new SenhaExistenteException(obj);
             }
         }
-        Usuario entity = repository.getReferenceById(id);
         updateData(entity, obj);
         return repository.save(entity);
     }
 
     public void updateData(Usuario entity, Usuario obj) {
-            entity.setEmail(obj.getEmail());
-            entity.setSenha(obj.getSenha());
-            entity.setConfirmacaoSenha(obj.getConfirmacaoSenha());
+        entity.setEmail(obj.getEmail());
+        entity.setSenha(obj.getSenha());
+        entity.setConfirmacaoSenha(obj.getConfirmacaoSenha());
     }
-
-
 
 
 }
