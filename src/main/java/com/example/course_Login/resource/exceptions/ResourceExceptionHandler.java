@@ -12,49 +12,43 @@ import java.time.Instant;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
-    @ExceptionHandler(EmailIgualException.class)
-    public ResponseEntity<StandardError> emailIgual(EmailIgualException e, HttpServletRequest request){
-        String error = "EMAIL EXISTING";
-        HttpStatus status = HttpStatus.NOT_FOUND;
-        StandardError err = new StandardError(Instant.now(),status.value(), error, e.getMessage(),request.getRequestURI());
+    @ExceptionHandler(value = {SenhaExistenteException.class, EmailExistenteException.class})
+    public ResponseEntity<StandardError> existingException(RuntimeException e, HttpServletRequest request) {
+        String error = "EXISTING";
+        HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
+        StandardError err = new StandardError(Instant.now(), status.value(),
+                error, e.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(IdNaoEncontradoException.class)
-    public ResponseEntity<StandardError> idNaoEncontrado(IdNaoEncontradoException e, HttpServletRequest request){
-        String error = "ID NOT FOUND";
+    @ExceptionHandler(value = {IdNaoEncontradoException.class, EmailNaoEncontradoException.class })
+    public ResponseEntity<StandardError> notFoundException(RuntimeException e, HttpServletRequest request) {
+        String error = "NOT FOUND";
         HttpStatus status = HttpStatus.NOT_FOUND;
-        StandardError err = new StandardError(Instant.now(),status.value(), error, e.getMessage(),request.getRequestURI());
-
-        return ResponseEntity.status(status).body(err);
-    }
-
-    @ExceptionHandler(EmailNaoEncontradoException.class)
-    public ResponseEntity<StandardError> EmailNaoEncontradoException(EmailNaoEncontradoException e, HttpServletRequest request){
-        String error = "EMAIL NOT FOUND";
-        HttpStatus status = HttpStatus.NOT_FOUND;
-        StandardError err = new StandardError(Instant.now(),status.value(), error, e.getMessage(),request.getRequestURI());
+        StandardError err = new StandardError(Instant.now(), status.value(),
+                error, e.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(status).body(err);
     }
 
     @ExceptionHandler(SenhaDiferenteException.class)
-    public ResponseEntity<StandardError> senhaDiferente(SenhaDiferenteException e, HttpServletRequest request){
+    public ResponseEntity<StandardError> senhaDiferente(SenhaDiferenteException e, HttpServletRequest request) {
         String error = "DIFFERENT PASSWORD";
-        HttpStatus status = HttpStatus.NOT_FOUND;
-        StandardError err = new StandardError(Instant.now(),status.value(), error, e.getMessage(),request.getRequestURI());
+        HttpStatus status = HttpStatus.CONFLICT;
+        StandardError err = new StandardError(Instant.now(), status.value(),
+                error, e.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(SenhaExistenteException.class)
-    public ResponseEntity<StandardError> senhaExistente(SenhaExistenteException e, HttpServletRequest request){
-        String error = "EXISTING PASSWORD";
-        HttpStatus status = HttpStatus.NOT_FOUND;
-        StandardError err = new StandardError(Instant.now(),status.value(), error, e.getMessage(),request.getRequestURI());
+    @ExceptionHandler(value = {CampoEmailVazioException.class, CampoSenhaVazioException.class})
+    public ResponseEntity<StandardError> emptyFieldException(RuntimeException e, HttpServletRequest request) {
+        String error = "EMPTY FIELD";
+        HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
+        StandardError err = new StandardError(Instant.now(), status.value(),
+                error, e.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(status).body(err);
     }
-
 }

@@ -31,15 +31,22 @@ public class UsuarioService {
     }
 
     public Usuario insert(Usuario obj) {
-        List<Usuario> recebaEmail = repository.findAll();
+        List<Usuario> todosUsuarios = repository.findAll();
+
+        if (obj.getEmail().isBlank()){
+            throw new CampoEmailVazioException(obj);
+        }
+        if (obj.getSenha().isBlank()){
+            throw new CampoSenhaVazioException(obj);
+        }
 
         if (!obj.getSenha().equals(obj.getConfirmacaoSenha())) {
             throw new SenhaDiferenteException(obj);
         }
 
-        for (Usuario usuario : recebaEmail) {
+        for (Usuario usuario : todosUsuarios) {
             if (obj.getEmail().equalsIgnoreCase(usuario.getEmail())) {
-                throw new EmailIgualException(obj);
+                throw new EmailExistenteException(obj);
             }
             if (obj.getSenha().equalsIgnoreCase(usuario.getSenha())) {
                 throw new SenhaExistenteException(obj);
@@ -53,27 +60,39 @@ public class UsuarioService {
     }
 
     public Usuario update(Long id, Usuario obj) {
-        List<Usuario> recebaEmail = repository.findAll();
-        Usuario entity = repository.getReferenceById(id);
+        List<Usuario> todosUsuarios = repository.findAll();
+        Optional<Usuario> optionalUsuario = repository.findById(id);
 
-        if (!id.equals(repository.getReferenceById(id).getId())){
-            throw new IdNaoEncontradoException(id);
+        if (optionalUsuario.isEmpty()){
+            throw new  IdNaoEncontradoException(id);
+        }
+
+        if (obj.getEmail().isBlank()){
+            throw new CampoEmailVazioException(obj);
+        }
+        if (obj.getSenha().isBlank()){
+            throw new CampoSenhaVazioException(obj);
         }
 
         if (!obj.getSenha().equals(obj.getConfirmacaoSenha())) {
             throw new SenhaDiferenteException(obj);
         }
 
-        for (Usuario usuario : recebaEmail) {
-            if (obj.getEmail().equalsIgnoreCase(usuario.getEmail()) && !obj.getEmail().equals(repository.getReferenceById(id).getEmail())) {
-                throw new EmailIgualException(obj);
+        for (Usuario usuario : todosUsuarios) {
+
+            if (!usuario.getId().equals(id)){
+
+                if (obj.getEmail().equalsIgnoreCase(usuario.getEmail())) {
+                    throw new EmailExistenteException(obj);
+                }
+                if (obj.getSenha().equalsIgnoreCase(usuario.getSenha())) {
+                    throw new SenhaExistenteException(obj);
+                }
             }
-            if (obj.getSenha().equalsIgnoreCase(usuario.getSenha()) && !obj.getSenha().equals(repository.getReferenceById(id).getSenha())) {
-                throw new SenhaExistenteException(obj);
-            }
+
         }
-        updateData(entity, obj);
-        return repository.save(entity);
+        updateData(optionalUsuario.get(), obj);
+        return repository.save(optionalUsuario.get());
     }
 
     public void updateData(Usuario entity, Usuario obj) {

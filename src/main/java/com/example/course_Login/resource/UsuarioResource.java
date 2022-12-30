@@ -31,7 +31,6 @@ public class UsuarioResource {
     }
     /*
     http://localhost:8080/usuarios/3
-    http://localhost:8080/usuarios/negao.pessanga@gmail.com
     find?email=negao.pessanga@gmail.com
      */
     @GetMapping(value = "/find")
