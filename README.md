@@ -33,7 +33,7 @@ DATA: 26/12/2022
     OUTRO EXEMPLO (CHECK)*
     "error": "EMAIL IS NULL",
     "message": "CAMPO EMAIL VAZIO",
-________________________________________________________________________________________________________________________
+
 **TIPOS DE ERROS A SEREM TRATADOS NO CRUD BY: PARDAL**
 DATA: 01/01/2022
 
