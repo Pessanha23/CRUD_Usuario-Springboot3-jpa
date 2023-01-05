@@ -1,8 +1,8 @@
 package com.example.course_Login.service.exceptions;
 
-public class SenhaDiferenteException extends RuntimeException {
+public class DiferenteSenhaException extends RuntimeException {
 
-    public SenhaDiferenteException(Object senha){
+    public DiferenteSenhaException(Object senha){
         super("SENHAS DIFERENTES! CADASTRE NOVAMENTE");
     }
 }

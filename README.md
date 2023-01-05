@@ -27,10 +27,6 @@ DATA: 26/12/2022
     "message": "CAMPO SENHA VAZIO"
 
     OUTRO EXEMPLO (CHECK)*
-    "error": "PASSWORD CONFIRMATION IS NULL",
-    "message": "CAMPO CONFIRMAÇÃO DE SENHA VAZIO"
-
-    OUTRO EXEMPLO (CHECK)*
     "error": "EMAIL IS NULL",
     "message": "CAMPO EMAIL VAZIO",
 

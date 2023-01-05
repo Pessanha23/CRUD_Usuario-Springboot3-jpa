@@ -4,7 +4,9 @@ import com.example.course_Login.entities.Usuario;
 import com.example.course_Login.service.UsuarioService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -33,14 +35,20 @@ public class UsuarioResource {
     http://localhost:8080/usuarios/3
     find?email=negao.pessanga@gmail.com
      */
-    @GetMapping(value = "/find")
+    @GetMapping(value = "/findEmail")
     public ResponseEntity<Usuario> buscarEmail(@RequestParam(required = false) String email) {
         Usuario obj = service.findByEmail(email);
         return ResponseEntity.ok().body(obj);
     }
 
+    @GetMapping(value = "/findCpf")
+    public ResponseEntity<Usuario> buscarCpf(@RequestParam Long cpf){
+        Usuario obj = service.findByCpf(cpf);
+        return ResponseEntity.ok().body(obj);
+    }
+
     @PostMapping
-    public ResponseEntity<Usuario> insert(@RequestBody Usuario obj) {
+    public ResponseEntity<Usuario> insert(@RequestBody @Validated Usuario obj) {
         Usuario objeto;
         objeto= service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();

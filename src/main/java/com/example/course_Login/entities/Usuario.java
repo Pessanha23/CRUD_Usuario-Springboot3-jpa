@@ -14,15 +14,19 @@ public class Usuario {
     private String senha;
     private String confirmacaoSenha;
 
+    private Long cpf;
+
     public Usuario() {
     }
 
-    public Usuario(Long id, String email, String senha, String confirmacaoSenha) {
+    public Usuario(Long id, String email, String senha, String confirmacaoSenha, Long cpf) {
         this.id = id;
         this.email = email;
         this.senha = senha;
         this.confirmacaoSenha = confirmacaoSenha;
+        this.cpf = cpf;
     }
+
 
     public Long getId() {
         return id;
@@ -54,6 +58,14 @@ public class Usuario {
 
     public void setConfirmacaoSenha(String confirmacaoSenha) {
         this.confirmacaoSenha = confirmacaoSenha;
+    }
+
+    public Long getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(Long cpf) {
+        this.cpf = cpf;
     }
 
     @Override

@@ -22,12 +22,17 @@ public class UsuarioService {
 
     public Usuario findById(Long id) {
         Optional<Usuario> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new IdNaoEncontradoException(id));
+        return obj.orElseThrow(() -> new NaoEncontradoIdException(id));
     }
 
     public Usuario findByEmail(String email) {
         Optional<Usuario> obj = repository.findByEmail(email);
-        return obj.orElseThrow(() -> new EmailNaoEncontradoException(email));
+        return obj.orElseThrow(() -> new NaoEncontradoEmailException(email));
+    }
+
+    public Usuario findByCpf(Long cpf){
+        Optional<Usuario> obj = repository.findByCpf(cpf);
+        return obj.orElseThrow(()-> new NaoEncontradoCpfException(cpf));
     }
 
     public Usuario insert(Usuario obj) {
@@ -41,17 +46,29 @@ public class UsuarioService {
         }
 
         if (!obj.getSenha().equals(obj.getConfirmacaoSenha())) {
-            throw new SenhaDiferenteException(obj);
+            throw new DiferenteSenhaException(obj);
+        }
+
+        if (obj.getCpf().toString().isBlank()){
+            throw new CampoCpfVazioException(obj);
+        }
+
+        if (obj.getCpf().toString().length() != 9){
+            throw new DiferenteCpfException(obj);
         }
 
         for (Usuario usuario : todosUsuarios) {
             if (obj.getEmail().equalsIgnoreCase(usuario.getEmail())) {
-                throw new EmailExistenteException(obj);
+                throw new ExistenteEmailException(obj);
             }
             if (obj.getSenha().equalsIgnoreCase(usuario.getSenha())) {
-                throw new SenhaExistenteException(obj);
+                throw new ExistenteSenhaException(obj);
+            }
+            if (obj.getCpf().equals(usuario.getCpf())){
+                throw new ExistenteCpfException(obj);
             }
         }
+
         return repository.save(obj);
     }
 
@@ -64,7 +81,7 @@ public class UsuarioService {
         Optional<Usuario> optionalUsuario = repository.findById(id);
 
         if (optionalUsuario.isEmpty()){
-            throw new  IdNaoEncontradoException(id);
+            throw new NaoEncontradoIdException(id);
         }
 
         if (obj.getEmail().isBlank()){
@@ -75,7 +92,15 @@ public class UsuarioService {
         }
 
         if (!obj.getSenha().equals(obj.getConfirmacaoSenha())) {
-            throw new SenhaDiferenteException(obj);
+            throw new DiferenteSenhaException(obj);
+        }
+
+        if (obj.getCpf().toString().isBlank()){
+            throw new CampoCpfVazioException(obj);
+        }
+
+        if (obj.getCpf().toString().length() != 9){
+            throw new DiferenteCpfException(obj);
         }
 
         for (Usuario usuario : todosUsuarios) {
@@ -83,10 +108,13 @@ public class UsuarioService {
             if (!usuario.getId().equals(id)){
 
                 if (obj.getEmail().equalsIgnoreCase(usuario.getEmail())) {
-                    throw new EmailExistenteException(obj);
+                    throw new ExistenteEmailException(obj);
                 }
                 if (obj.getSenha().equalsIgnoreCase(usuario.getSenha())) {
-                    throw new SenhaExistenteException(obj);
+                    throw new ExistenteSenhaException(obj);
+                }
+                if (obj.getCpf().equals(usuario.getCpf())){
+                    throw new ExistenteCpfException(obj);
                 }
             }
 
