@@ -22,22 +22,22 @@ DATA: 26/12/2022
     "error": "EXISTING PASSWORD",
     "message": "SENHA EXISTENTE"
 
-    OUTRO EXEMPLO (CHECK)*
+    OUTRO EXEMPLO (CHECK)
     "error": "PASSWORD IS NULL",
     "message": "CAMPO SENHA VAZIO"
 
-    OUTRO EXEMPLO (CHECK)*
+    OUTRO EXEMPLO (CHECK)
     "error": "EMAIL IS NULL",
     "message": "CAMPO EMAIL VAZIO",
 
 **TIPOS DE ERROS A SEREM TRATADOS NO CRUD BY: PARDAL**
 DATA: 01/01/2022
 
-* 1°Desafio: Corrigir "error" dos exemplos acima, que na msg devolva a mensagem de "error" acima;
+* 1°Desafio: Corrigir "error" dos exemplos acima, que na msg devolva a mensagem de "error" acima;(CHECK)
 * 2°Desafio: Diminuir @ExceptionHanlder apenas um metodo, mas que atenda diferentes tipos de error;
-  * Rever Herança para resolver a diminuição de @ExceptionHandler;
-  * Rever a parte de Exceptions;
-* 3°Desafio: Adicionar campo cpf, conforme email, senha e confirmação, repetir busca, erros, lógica, com o novo campo cpf;
+  * Rever Herança para resolver a diminuição de @ExceptionHandler;(TENTAR)
+  * Rever a parte de Exceptions;(TENTAR)
+* 3°Desafio: Adicionar campo cpf, conforme email, senha e confirmação, repetir busca, erros, lógica, com o novo campo cpf;(CHECK)
 
 
 

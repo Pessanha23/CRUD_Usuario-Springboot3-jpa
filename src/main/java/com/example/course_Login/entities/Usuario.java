@@ -13,7 +13,6 @@ public class Usuario {
     private String email;
     private String senha;
     private String confirmacaoSenha;
-
     private Long cpf;
 
     public Usuario() {
@@ -73,11 +72,11 @@ public class Usuario {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return id.equals(usuario.id) && email.equals(usuario.email);
+        return id.equals(usuario.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email);
+        return Objects.hash(id);
     }
 }

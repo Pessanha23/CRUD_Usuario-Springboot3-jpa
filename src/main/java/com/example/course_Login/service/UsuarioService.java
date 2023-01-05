@@ -49,7 +49,7 @@ public class UsuarioService {
             throw new DiferenteSenhaException(obj);
         }
 
-        if (obj.getCpf().toString().isBlank()){
+        if (obj.getCpf() == null ){
             throw new CampoCpfVazioException(obj);
         }
 
@@ -95,7 +95,7 @@ public class UsuarioService {
             throw new DiferenteSenhaException(obj);
         }
 
-        if (obj.getCpf().toString().isBlank()){
+        if (obj.getCpf() == null){
             throw new CampoCpfVazioException(obj);
         }
 
