@@ -39,6 +39,11 @@ DATA: 01/01/2022
   * Rever a parte de Exceptions;(TENTAR)
 * 3°Desafio: Adicionar campo cpf, conforme email, senha e confirmação, repetir busca, erros, lógica, com o novo campo cpf;(CHECK)
 
+**TIPOS DE ERROS A SEREM TRATADOS NO CRUD BY: PARDAL**
+DATA: 06/01/2022
 
+* 1°Desafio: Melhorar a lógica de geração do CPF, para ver se é válido (procurar a regra);
+* 2°Desafio: Cadastrar diversos telefone para cada usuario (na hora do cadastro, no post, posso cadastrar todos de uma só vez), mas 
+  * adicionar endpoint para atualizar, um endpoint a parte só para atualizar os telefones;
+* 3°Desafio: Criar um endpoint para apenas ler os telefones cadastrados do usuario e um endpoint a parte com relação a deletar;
 
-          
