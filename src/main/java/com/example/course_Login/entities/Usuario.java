@@ -1,8 +1,11 @@
 package com.example.course_Login.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -13,12 +16,18 @@ public class Usuario {
     private String email;
     private String senha;
     private String confirmacaoSenha;
-    private Long cpf;
+    private String cpf;
+
+    // Corrigir as anotações para melhorar a associação de varios telefonesmas para um usuário e verificar;
+    // na classe Usuario as @, para verificar se esta associado corretamente com essa classe;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL) //Cascade estudar mais sobre o uso disso
+    private Set<Telefone> telefoneSet = new HashSet<>();
 
     public Usuario() {
     }
 
-    public Usuario(Long id, String email, String senha, String confirmacaoSenha, Long cpf) {
+    public Usuario(Long id, String email, String senha, String confirmacaoSenha, String cpf) {
         this.id = id;
         this.email = email;
         this.senha = senha;
@@ -59,12 +68,20 @@ public class Usuario {
         this.confirmacaoSenha = confirmacaoSenha;
     }
 
-    public Long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(Long cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public Set<Telefone> getTelefoneSet() {
+        return telefoneSet;
+    }
+
+    public void setTelefoneSet(Set<Telefone> telefoneSet) {
+        this.telefoneSet = telefoneSet;
     }
 
     @Override

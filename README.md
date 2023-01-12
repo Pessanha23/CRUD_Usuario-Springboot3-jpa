@@ -5,7 +5,7 @@
 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" width="100px" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original-wordmark.svg" width="100px" /><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original-wordmark.svg" width="100px" /><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="100px" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original-wordmark.svg" width="100px" /> 
 
-**TIPOS DE ERROS A SEREM TRATADOS NO CRUD BY: PARDAL**
+**TASK BY: PARDAL**
 DATA: 26/12/2022
 * 1°Desafio: Ajustar campo senha na atualizacao p/ que possa repetir a mesma senha anterior do usuario, mesmo nao podendo colocar a senha similar de novos usuarios; (CHECK)
 * 2°Desafio: Buscar pelo endereço do localhost o campo email; (CHECK)
@@ -30,7 +30,7 @@ DATA: 26/12/2022
     "error": "EMAIL IS NULL",
     "message": "CAMPO EMAIL VAZIO",
 
-**TIPOS DE ERROS A SEREM TRATADOS NO CRUD BY: PARDAL**
+**TASK BY: PARDAL**
 DATA: 01/01/2022
 
 * 1°Desafio: Corrigir "error" dos exemplos acima, que na msg devolva a mensagem de "error" acima;(CHECK)
@@ -39,11 +39,17 @@ DATA: 01/01/2022
   * Rever a parte de Exceptions;(TENTAR)
 * 3°Desafio: Adicionar campo cpf, conforme email, senha e confirmação, repetir busca, erros, lógica, com o novo campo cpf;(CHECK)
 
-**TIPOS DE ERROS A SEREM TRATADOS NO CRUD BY: PARDAL**
+**TASK BY: PARDAL**
 DATA: 06/01/2022
 
-* 1°Desafio: Melhorar a lógica de geração do CPF, para ver se é válido (procurar a regra);
+* 1°Desafio: Melhorar a lógica de geração do CPF, para ver se é válido (procurar a regra);(CHECK)
 * 2°Desafio: Cadastrar diversos telefone para cada usuario (na hora do cadastro, no post, posso cadastrar todos de uma só vez), mas 
-  * adicionar endpoint para atualizar, um endpoint a parte só para atualizar os telefones;
-* 3°Desafio: Criar um endpoint para apenas ler os telefones cadastrados do usuario e um endpoint a parte com relação a deletar;
+  * adicionar endpoint para atualizar, um endpoint a parte só para atualizar os telefones;(CHECK)
+* 3°Desafio: Criar um endpoint para apenas ler os telefones cadastrados do usuario e um endpoint a parte com relação a deletar;(CHECK)
 
+**TASK BY: PARDAL**
+DATA: 12/01/2022
+
+* 1°Desafio: Retornar telefone cadastrado pelo TelefoneService(insert), mas não pode passar apenas o telefone e cadastrar, tem que 
+  * cadastrar e linkar com o id do usuario;
+* 2°Desafio: Atualizar telefone, metodo update; 

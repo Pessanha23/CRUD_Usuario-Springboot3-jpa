@@ -2,9 +2,7 @@ package com.example.course_Login.resource;
 
 import com.example.course_Login.entities.Usuario;
 import com.example.course_Login.service.UsuarioService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +40,7 @@ public class UsuarioResource {
     }
 
     @GetMapping(value = "/findCpf")
-    public ResponseEntity<Usuario> buscarCpf(@RequestParam Long cpf){
+    public ResponseEntity<Usuario> buscarCpf(@RequestParam String cpf){
         Usuario obj = service.findByCpf(cpf);
         return ResponseEntity.ok().body(obj);
     }
