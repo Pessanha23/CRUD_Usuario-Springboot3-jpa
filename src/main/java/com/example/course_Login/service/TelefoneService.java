@@ -1,19 +1,21 @@
 package com.example.course_Login.service;
 
 import com.example.course_Login.entities.Telefone;
+import com.example.course_Login.entities.Usuario;
 import com.example.course_Login.repositories.TelefoneRepository;
+import com.example.course_Login.repositories.UsuarioRepository;
 import com.example.course_Login.service.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TelefoneService {
     @Autowired
     private TelefoneRepository telefoneRepository;
-
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     public List<Telefone> findAll() {
         return telefoneRepository.findAll();
@@ -24,16 +26,32 @@ public class TelefoneService {
         return obj.orElseThrow(() -> new NaoEncontradoIdException(id));
     }
 
-    public Telefone findByTelefone(String telefone){
+    public Telefone findByTelefone(String telefone) {
         Optional<Telefone> obj = telefoneRepository.findByTelefone(telefone);
-        return obj.orElseThrow(()-> new NaoEncontradoCpfException(telefone));
+        return obj.orElseThrow(() -> new NaoEncontradoCpfException(telefone));
     }
 
-    public Telefone insertTelefone(Telefone obj) {
-        List<Telefone> todosUsuarios = telefoneRepository.findAll();
+    public Telefone insertTelefone(Telefone telefone) {
 
-        return telefoneRepository.save(obj);
+        Optional<Usuario> buscarId = usuarioRepository.findById(telefone.getNovoId());
+        Usuario usuario = buscarId.orElseThrow(() -> new NaoEncontradoIdException(telefone.getNovoId()));
+
+        Set<Telefone> telefoneList = usuario.getTelefoneSet();
+
+        telefoneList.add(telefone);
+        telefone.setUsuario(usuario);
+
+
+     /* 1 - Buscar o novoId;
+        2 - Trazer a lista do Usuario(telefoneSet);
+        3 - Inserir na lista do Usuario que vc buscou;
+        4- Aplicar o novo usuario la na base;
+        5 - Salvar tudo(repository.save).
+
+      */
+        return telefoneRepository.save(telefone);
     }
+
 
     public void delete(Long id) {
         telefoneRepository.deleteById(id);
@@ -43,18 +61,18 @@ public class TelefoneService {
         List<Telefone> todosUsuarios = telefoneRepository.findAll();
         Optional<Telefone> optionalContatoUsuario = telefoneRepository.findById(id);
 
-        if (optionalContatoUsuario.isEmpty()){
+        if (optionalContatoUsuario.isEmpty()) {
             throw new NaoEncontradoIdException(id);
         }
-        if (obj.getTelefone().isBlank()){
+        if (obj.getTelefone().isBlank()) {
             throw new CampoEmailVazioException(obj);
         }
-        if (!obj.getTelefone().equals(9)){
+        if (!obj.getTelefone().equals(9)) {
             throw new CampoEmailVazioException(obj);
         }
         for (Telefone todosUsuario : todosUsuarios) {
             if (!todosUsuario.getId().equals(id)) {
-                if ((obj.getTelefone().equals(todosUsuario.getTelefone()))){
+                if ((obj.getTelefone().equals(todosUsuario.getTelefone()))) {
                     throw new ExistenteEmailException(obj);
                 }
             }

@@ -71,16 +71,14 @@ public class UsuarioService {
         }
 
         Set<Telefone> listaTelefonica= obj.getTelefoneSet();
+
         for (Telefone telefone : listaTelefonica) {
              telefone.setUsuario(obj);
         }
+        /*-Metodo igual ao de cima, com lambda
+        listaTelefonica.forEach(telefone -> {telefone.setUsuario(obj);});
 
-
-
-
-
-
-        /*
+        -Metodo utilizado para testar, com Orientacao Objeto e testando
         Telefone t2 = new Telefone(null, "997575755");
         Telefone t1 = new Telefone(null, "999999999");
         //em casos de preenchimento de duas tabelas, é obrigatório existir o set
@@ -90,8 +88,6 @@ public class UsuarioService {
         Set<Telefone> teste3 = Set.of(t2, t1);
         obj.setTelefoneSet(teste3);
         */
-
-
         return repository.save(obj);
     }
 

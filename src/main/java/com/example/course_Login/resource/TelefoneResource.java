@@ -40,7 +40,7 @@ public class TelefoneResource {
     }
 
     @PostMapping
-    public ResponseEntity<Telefone> insertTelefone(@RequestBody @Validated Telefone obj) {
+    public ResponseEntity<Telefone> insertTelefone(@RequestBody Telefone obj) {
         Telefone objeto;
         objeto= telefoneService.insertTelefone(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
