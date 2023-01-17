@@ -72,6 +72,16 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @ExceptionHandler(value = {NaoEncontradoTelefoneException.class})
+    public ResponseEntity<StandardError> telefoneNotFoundException(NaoEncontradoTelefoneException e, HttpServletRequest request) {
+        String error = "TELEFONE NOT FOUND";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(Instant.now(), status.value(),
+                error, e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(err);
+    }
+
     @ExceptionHandler({InvalidoSenhaException.class})
     public ResponseEntity<StandardError> passwordInvalid(RuntimeException e, HttpServletRequest request) {
         String error = "DIFFERENT PASSWORD";

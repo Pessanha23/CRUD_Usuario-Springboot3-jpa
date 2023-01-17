@@ -2,6 +2,7 @@ package com.example.course_Login.resource;
 
 import com.example.course_Login.entities.Usuario;
 import com.example.course_Login.service.UsuarioService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -44,6 +45,12 @@ public class UsuarioResource {
     public ResponseEntity<Usuario> buscarCpf(@RequestParam String cpf){
         Usuario obj = service.findByCpf(cpf);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping(value = "/usuarioTelefone")
+    public ResponseEntity<List<Usuario>> findAllTelefone() {
+        List<Usuario> list = service.findAllTelefone();
+        return ResponseEntity.ok().body(list);
     }
 
     @PostMapping

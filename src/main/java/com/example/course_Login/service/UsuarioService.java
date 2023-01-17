@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class UsuarioService {
@@ -17,12 +18,28 @@ public class UsuarioService {
     private UsuarioRepository repository;
 
     @Autowired
-    private TelefoneRepository  telefoneRepository;
+    private TelefoneRepository telefoneRepository;
 
 
     public List<Usuario> findAll() {
         return repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
+
+    public List<Usuario> findAllTelefone() {
+        List<Usuario> usuarioList = repository.findAll();
+        if (usuarioList.isEmpty()) {
+            throw new NaoEncontradoTelefoneException(repository);
+        }
+        for (Usuario usuario : repository.findAll()) {
+            boolean usuarioTesteLista = usuario.getTelefoneSet().isEmpty();
+                if (usuarioTesteLista == true){
+                    usuarioList.remove(usuario);
+                }
+        }
+
+        return usuarioList;
+    }
+
 
     public Usuario findById(Long id) {
         Optional<Usuario> obj = repository.findById(id);
@@ -70,10 +87,10 @@ public class UsuarioService {
             }
         }
 
-        Set<Telefone> listaTelefonica= obj.getTelefoneSet();
+        Set<Telefone> listaTelefonica = obj.getTelefoneSet();
 
         for (Telefone telefone : listaTelefonica) {
-             telefone.setUsuario(obj);
+            telefone.setUsuario(obj);
         }
         /*-Metodo igual ao de cima, com lambda
         listaTelefonica.forEach(telefone -> {telefone.setUsuario(obj);});
