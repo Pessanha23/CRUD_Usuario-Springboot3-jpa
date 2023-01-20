@@ -52,6 +52,11 @@ public class UsuarioResource {
         List<Usuario> list = service.findAllTelefone();
         return ResponseEntity.ok().body(list);
     }
+    @GetMapping(value = "/usuarioCpfPar")
+    public ResponseEntity<List<Usuario>> findAllCpfPar() {
+        List<Usuario> list = service.findAllCpfPar();
+        return ResponseEntity.ok().body(list);
+    }
 
     @PostMapping
     public ResponseEntity<Usuario> insert(@RequestBody @Validated Usuario obj) {

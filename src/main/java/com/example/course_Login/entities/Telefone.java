@@ -69,16 +69,5 @@ public class Telefone {
         this.usuario = usuario;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Telefone telefone1 = (Telefone) o;
-        return Objects.equals(id, telefone1.id) && Objects.equals(telefone, telefone1.telefone) && Objects.equals(usuario, telefone1.usuario);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, telefone, usuario);
-    }
 }

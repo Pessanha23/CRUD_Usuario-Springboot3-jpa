@@ -27,17 +27,40 @@ public class UsuarioService {
 
     public List<Usuario> findAllTelefone() {
         List<Usuario> usuarioList = repository.findAll();
-        if (usuarioList.isEmpty()) {
-            throw new NaoEncontradoTelefoneException(repository);
-        }
-        for (Usuario usuario : repository.findAll()) {
-            boolean usuarioTesteLista = usuario.getTelefoneSet().isEmpty();
-                if (usuarioTesteLista == true){
-                    usuarioList.remove(usuario);
-                }
+        List<Usuario> usuarioCopiaLista = new ArrayList<>();
+
+        for (Usuario usuario : usuarioList) {
+
+            boolean usuarioSemTelefone = usuario.getTelefoneSet().isEmpty();
+            if (!usuarioSemTelefone) {
+                usuarioCopiaLista.add(usuario);
+            }
         }
 
-        return usuarioList;
+        if (usuarioCopiaLista.size() == 0) {
+            throw new NaoEncontradoTelefoneException(usuarioList);
+        }
+
+        return usuarioCopiaLista;
+    }
+
+    public List<Usuario> findAllCpfPar() {
+        List<Usuario> usuarioList = repository.findAll();
+        List<Usuario> usuarioCopiaLista = new ArrayList<>();
+
+        if (usuarioList.isEmpty()) {
+            throw new NaoEncontradoCpfException(usuarioList);
+        }
+
+        for (Usuario usuario : usuarioList) {
+            String cpfCount = usuario.getCpf().substring(8);
+            int cpfCount2 = Integer.parseInt(cpfCount);
+            if (cpfCount2 % 2 == 0) {
+                usuarioCopiaLista.add(usuario);
+            }
+        }
+
+        return usuarioCopiaLista;
     }
 
 
@@ -58,6 +81,7 @@ public class UsuarioService {
 
     public Usuario insert(Usuario obj) {
         List<Usuario> todosUsuarios = repository.findAll();
+        List<Telefone> telefoneList = telefoneRepository.findAll();
 
         if (obj.getEmail().isBlank()) {
             throw new CampoEmailVazioException(obj);
@@ -85,13 +109,29 @@ public class UsuarioService {
             if (obj.getCpf().equals(usuario.getCpf())) {
                 throw new ExistenteCpfException(obj);
             }
+
         }
 
         Set<Telefone> listaTelefonica = obj.getTelefoneSet();
+        List<Telefone> listaVivo = new ArrayList<>();
 
         for (Telefone telefone : listaTelefonica) {
             telefone.setUsuario(obj);
         }
+
+        for (Telefone telefone : listaTelefonica) {
+            if (listaVivo.isEmpty()){
+                listaVivo.add(telefone);
+            } else {
+                for (Telefone vivo : listaVivo) {
+                    if (telefone.getTelefone().equals(vivo.getTelefone())) {
+                        throw new ExistenteCpfException(obj);
+                    }
+                }
+                listaVivo.add(telefone);
+            }
+        }
+
         /*-Metodo igual ao de cima, com lambda
         listaTelefonica.forEach(telefone -> {telefone.setUsuario(obj);});
 

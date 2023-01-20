@@ -52,9 +52,11 @@ DATA: 12/01/2022
 
 * 1°Desafio: Retornar telefone cadastrado pelo TelefoneService(insert), mas não pode passar apenas o telefone e cadastrar, tem que 
   * cadastrar e linkar com o id do usuario;(CHECK / MAS REVER ISSO)
-* 2° Desafio: Retornar apenas usuarios que contém telefone, no novo endpoint get;
-  * Retornar erro ao não ter nenhum usuario com telefone;
-* 3° Desafio: Retornar apenas usuarios com o cpf, com o final par;
+* 2° Desafio: Retornar apenas usuarios que contém telefone, no novo endpoint get;(CHECK)
+  * Retornar erro ao não ter nenhum usuario com telefone;(CHECK)
+* 3° Desafio: Retornar apenas usuarios com o cpf, com o final par;(CHECK)
 * 4° Desafio: Retornar um erro caso o telefone cadastrado seja igual ao numero de telefone cadastro na base de dados (em todo lugar
-  * que manipula o telefone deverá haver essa regra);
+  * que manipula o telefone deverá haver essa regra); 
+  * Adicionar campo de limitação de telefone para 10 numeros(fazer a logica);
+  * Aplicar erro se o numero de telefone cadastrado for igual, algum outro já cadastrado pelo post/telefone;
 * 5° Desafio: Atualizar telefone, metodo update; (ADIADO)
