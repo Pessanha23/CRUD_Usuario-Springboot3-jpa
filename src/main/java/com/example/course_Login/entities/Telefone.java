@@ -69,5 +69,4 @@ public class Telefone {
         this.usuario = usuario;
     }
 
-
 }

@@ -56,7 +56,7 @@ DATA: 12/01/2022
   * Retornar erro ao não ter nenhum usuario com telefone;(CHECK)
 * 3° Desafio: Retornar apenas usuarios com o cpf, com o final par;(CHECK)
 * 4° Desafio: Retornar um erro caso o telefone cadastrado seja igual ao numero de telefone cadastro na base de dados (em todo lugar
-  * que manipula o telefone deverá haver essa regra); 
-  * Adicionar campo de limitação de telefone para 10 numeros(fazer a logica);
-  * Aplicar erro se o numero de telefone cadastrado for igual, algum outro já cadastrado pelo post/telefone;
+  * que manipula o telefone deverá haver essa regra); (CHECK)
+  * Adicionar campo de limitação de telefone para 10 numeros(fazer a logica);(CHECK)
+  * Aplicar erro se o numero de telefone cadastrado for igual, algum outro já cadastrado pelo post/telefone;(CHECK)
 * 5° Desafio: Atualizar telefone, metodo update; (ADIADO)

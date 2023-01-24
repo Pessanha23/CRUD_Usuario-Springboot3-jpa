@@ -42,6 +42,17 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @ExceptionHandler(value = {ExistenteTelefoneException.class})
+    public ResponseEntity<StandardError> telefoneException(ExistenteTelefoneException e, HttpServletRequest request) {
+        String error = "EXISTING TELEFONE";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(Instant.now(), status.value(),
+                error, e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(err);
+    }
+
+
     //ler novamente site adicionado nos favoritos
 
     @ExceptionHandler(value = {NaoEncontradoIdException.class})
@@ -105,6 +116,16 @@ public class ResourceExceptionHandler {
     @ExceptionHandler({InvalidoCpfException.class})
     public ResponseEntity<StandardError> cpfInvalid(InvalidoCpfException e, HttpServletRequest request) {
         String error = "INVALID CPF";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(Instant.now(), status.value(),
+                error, e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler({InvalidoTelefoneException.class})
+    public ResponseEntity<StandardError> telefoneInvalid(InvalidoTelefoneException e, HttpServletRequest request) {
+        String error = "INVALID TELEFONE";
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError err = new StandardError(Instant.now(), status.value(),
                 error, e.getMessage(), request.getRequestURI());

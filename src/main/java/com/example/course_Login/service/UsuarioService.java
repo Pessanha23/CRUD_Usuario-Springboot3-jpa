@@ -117,15 +117,19 @@ public class UsuarioService {
 
         for (Telefone telefone : listaTelefonica) {
             telefone.setUsuario(obj);
+
+            if (telefone.getTelefone().length() != 9) {
+                throw new InvalidoTelefoneException(obj);
+            }
         }
 
         for (Telefone telefone : listaTelefonica) {
-            if (listaVivo.isEmpty()){
+            if (listaVivo.isEmpty()) {
                 listaVivo.add(telefone);
             } else {
                 for (Telefone vivo : listaVivo) {
                     if (telefone.getTelefone().equals(vivo.getTelefone())) {
-                        throw new ExistenteCpfException(obj);
+                        throw new ExistenteTelefoneException(obj);
                     }
                 }
                 listaVivo.add(telefone);

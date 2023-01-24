@@ -41,17 +41,23 @@ public class TelefoneService {
         telefoneList.add(telefone);
         telefone.setUsuario(usuario);
 
+        List<Telefone> listVivo = new ArrayList<>();
+        for (Telefone telefoneLista : telefoneList) {
+            if (listVivo.isEmpty()) {
+                listVivo.add(telefoneLista);
+            } else {
+                for (Telefone vivo : listVivo) {
+                    if (telefoneLista.getTelefone().equals(vivo.getTelefone())) {
+                        throw new ExistenteTelefoneException(telefone);
+                    }
+                }
+                listVivo.add(telefoneLista);
+            }
 
-     /* 1 - Buscar o novoId;
-        2 - Trazer a lista do Usuario(telefoneSet);
-        3 - Inserir na lista do Usuario que vc buscou;
-        4- Aplicar o novo usuario la na base;
-        5 - Salvar tudo(repository.save).
+        }
 
-      */
         return telefoneRepository.save(telefone);
     }
-
 
     public void delete(Long id) {
         telefoneRepository.deleteById(id);
