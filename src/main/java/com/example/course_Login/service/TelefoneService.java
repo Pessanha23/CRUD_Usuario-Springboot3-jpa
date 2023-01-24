@@ -36,6 +36,10 @@ public class TelefoneService {
         Optional<Usuario> buscarId = usuarioRepository.findById(telefone.getNovoId());
         Usuario usuario = buscarId.orElseThrow(() -> new NaoEncontradoIdException(telefone.getNovoId()));
 
+        if (telefone.getTelefone().length() != 9) {
+            throw new InvalidoTelefoneException(telefone);
+        }
+        
         Set<Telefone> telefoneList = usuario.getTelefoneSet();
 
         telefoneList.add(telefone);
