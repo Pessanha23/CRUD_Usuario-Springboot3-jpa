@@ -47,6 +47,14 @@ public class TelefoneResource {
         return ResponseEntity.created(uri).body(objeto);
     }
 
+    @PostMapping(value = "/multiplosTelefone")
+    public ResponseEntity <List<Telefone>> insertTelefoneMultiples(@RequestBody List<Telefone> obj) {
+        List<Telefone> objeto;
+        objeto= telefoneService.insertTelefoneMultiples(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj).toUri();
+        return ResponseEntity.created(uri).body(objeto);
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id, @RequestBody Telefone obj){
         telefoneService.delete(id);

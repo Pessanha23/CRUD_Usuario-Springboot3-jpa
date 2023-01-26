@@ -39,7 +39,7 @@ public class TelefoneService {
         if (telefone.getTelefone().length() != 9) {
             throw new InvalidoTelefoneException(telefone);
         }
-        
+
         Set<Telefone> telefoneList = usuario.getTelefoneSet();
 
         telefoneList.add(telefone);
@@ -59,8 +59,50 @@ public class TelefoneService {
             }
 
         }
-
         return telefoneRepository.save(telefone);
+    }
+
+    public List<Telefone> insertTelefoneMultiples(List<Telefone> bodyTelefone) {
+
+        List<Usuario> usuarioList = usuarioRepository.findAll();
+        Optional<Usuario> buscarId = usuarioRepository.findById(bodyTelefone.get(0).getNovoId());
+
+        List<Telefone> listaString = new ArrayList<>();
+        Set<Telefone> listaTelBanco = buscarId.get().getTelefoneSet();
+
+        boolean encontrado = false;
+
+        for (Usuario usuario : usuarioList) {
+            if (usuario.getId().equals(bodyTelefone.get(0).getNovoId())) {
+
+                for (Telefone body : bodyTelefone) {
+                    for (Telefone bancoTel : listaTelBanco) {
+                        if (bancoTel.getTelefone().equals(body.getTelefone()) || body.getTelefone().length() != 9) {
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                    if (!encontrado) {
+                        listaString.add(body);
+                        listaTelBanco.add(body);
+                        body.setUsuario(usuario);
+                    }
+                    encontrado = false;
+                }
+            }
+        }
+
+        /*Metodo, nao eficaz mas para casos de transformar um tipo de String, orientação a objeto isso!!!!!
+        List<Telefone> lastDanceList = new ArrayList<>();
+        for (String s : listaString) {
+            Telefone teste = new Telefone();
+            teste.setTelefone(s);
+            teste.setNovoId(bodyTelefone.get(0).getNovoId());
+            teste.setUsuario(novoUsuario);
+            lastDanceList.add(teste);
+        }*/
+
+        return telefoneRepository.saveAll(listaString);
     }
 
     public void delete(Long id) {

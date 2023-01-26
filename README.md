@@ -60,3 +60,16 @@ DATA: 12/01/2022
   * Adicionar campo de limitação de telefone para 10 numeros(fazer a logica);(CHECK)
   * Aplicar erro se o numero de telefone cadastrado for igual, algum outro já cadastrado pelo post/telefone;(CHECK)
 * 5° Desafio: Atualizar telefone, metodo update; (ADIADO)
+
+**TASK BY: PARDAL**
+DATA: 24/01/2022
+* 1°Desafio: Fazer o endpoint do telefones, receber mais de um cadastro de telefone, pro **mesmo usuário;** 
+  * PS: Endpoint deverá continuar funcionando, e você deverá criar um novo endpoint;
+* 2°Desafio: Continuação do desafio acima. Não pode dar erro cadastrar um telefone repetido.
+  * Exemplo: Se um telefone foi cadastrado no inicio e ao cadastrar novamente novos telefones, um deles deverá ser cadastrado 
+  * e o número repetido no endpoint telefones, deverá apenas não ser cadastrado, não retornado um novo erro;
+* 3°Desafio: O sistema de cadastro de telefone, no geral não pdoe retornar erro com número cadastrado repetido;
+* 4° Desafio: No caso do único endpoint de telefone, que apenas cadastra um telefone, ele deve cadastrar mas apenas substituir o 
+  * duplicado, ele não pode adicionar outro numero duplicado, no getfinal não pode aparecer telefones duplicados;
+* Pergunta do pardal: TelefoneResource;
+

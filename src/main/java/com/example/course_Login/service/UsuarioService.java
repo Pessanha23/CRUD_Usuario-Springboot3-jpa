@@ -22,7 +22,7 @@ public class UsuarioService {
 
 
     public List<Usuario> findAll() {
-        return repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public List<Usuario> findAllTelefone() {
