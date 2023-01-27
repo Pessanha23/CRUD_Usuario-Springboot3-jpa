@@ -17,8 +17,9 @@ public class Telefone {
     private String telefone;
 
     //o @Transient faz a função de ignorar para o banco de dados, não criar a coluna novoId, apenas para usar informação;
+    // utilizar o transient min. para nao se criar na tabela a coluna que faz apenas associcao dos id(novoid);
     @Transient
-    private Long novoId;
+    private transient Long novoId;
 
     // Corrigir as anotações para melhorar a associação de varios telefonesmas para um usuário e verificar;
     // na classe Usuario as @, para verificar se esta associado corretamente com essa classe;

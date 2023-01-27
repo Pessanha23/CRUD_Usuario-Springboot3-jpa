@@ -63,13 +63,45 @@ DATA: 12/01/2022
 
 **TASK BY: PARDAL**
 DATA: 24/01/2022
-* 1°Desafio: Fazer o endpoint do telefones, receber mais de um cadastro de telefone, pro **mesmo usuário;** 
-  * PS: Endpoint deverá continuar funcionando, e você deverá criar um novo endpoint;
+* 1°Desafio: Fazer o endpoint do telefones, receber mais de um cadastro de telefone, pro **mesmo usuário;** (CHECK)
+  * PS: Endpoint deverá continuar funcionando, e você deverá criar um novo endpoint;(CHECK)
 * 2°Desafio: Continuação do desafio acima. Não pode dar erro cadastrar um telefone repetido.
   * Exemplo: Se um telefone foi cadastrado no inicio e ao cadastrar novamente novos telefones, um deles deverá ser cadastrado 
-  * e o número repetido no endpoint telefones, deverá apenas não ser cadastrado, não retornado um novo erro;
-* 3°Desafio: O sistema de cadastro de telefone, no geral não pdoe retornar erro com número cadastrado repetido;
+  * e o número repetido no endpoint telefones, deverá apenas não ser cadastrado, não retornado um novo erro;(CHECK)
+* 3°Desafio: O sistema de cadastro de telefone, no geral não pdoe retornar erro com número cadastrado repetido;(CHECK)
 * 4° Desafio: No caso do único endpoint de telefone, que apenas cadastra um telefone, ele deve cadastrar mas apenas substituir o 
-  * duplicado, ele não pode adicionar outro numero duplicado, no getfinal não pode aparecer telefones duplicados;
+  * duplicado, ele não pode adicionar outro numero duplicado, no getfinal não pode aparecer telefones duplicados;(CHECK)
 * Pergunta do pardal: TelefoneResource;
 
+**TASK BY: PARDAL**
+DATA: 26/01/2022
+* 1°Desafio: Rede Social
+* REGRAS GERAIS:
+* Regra: Criar um endpoint com filtro de usuarios de toda rede social, service, controller, e repository
+* Usuario pode ter apenas um rede social de cada;
+* Terá que ter uma edição para a rede social cadastrada, e apagar uma rede que o cliente queira apagar
+
+* endpoint: (get)buscar rede social de todos usuarios com red
+* endpoint: (get)buscar rede social por cada rede social, retornando todos usuarios com link e rede social daquele endpoint
+
+* enpoints: (post usuario) cadastro da usuario service
+* * Regra: Não pode ter mais de um link por rede social, mas pode cadastrar quantas redes quiser;
+
+* endpoint: (post multiplas) redes sociais
+* * Regra: Deverá editar por multiplus;
+* Regra: O usuario pode passar quantas redes sociais e links que quiser, mas apenas um link por rede;
+* * Regra: Não pode ter mais de um link por rede social;
+* Regra: O usuario pode passar quantas redes sociais e links que quiser, mas apenas um link por rede;
+
+* endpoint: editar redes sociais no caso ele pode apenas editar o link
+* * Regra: Deverá editar por multiplus;
+* * Regra: Apenas editar o link, não pode editar o nome da Rede Social;
+* * Regra: Apenas editar o link,não pode adicionar ou apagar;
+
+* endpoint: apagar rede social
+* * Regra: Deverá editar por multiplus;
+* * Regra: apenas um enpoint, para apagar multiplos, verifique qual a melhor maneira;
+* * Regra: Ele pode apagar quantas redes sociais ele quiser, em apenas 
+
+
+* 

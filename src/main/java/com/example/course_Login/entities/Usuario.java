@@ -3,6 +3,7 @@ package com.example.course_Login.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -23,6 +24,9 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL) //Cascade estudar mais sobre o uso disso
     private Set<Telefone> telefoneSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Set<RedeSocial> redeSocialList = new HashSet<>();
 
     public Usuario() {
     }
@@ -82,6 +86,14 @@ public class Usuario {
 
     public void setTelefoneSet(Set<Telefone> telefoneSet) {
         this.telefoneSet = telefoneSet;
+    }
+
+    public Set<RedeSocial> getRedeSocialList() {
+        return redeSocialList;
+    }
+
+    public void setRedeSocialList(Set<RedeSocial> redeSocialList) {
+        this.redeSocialList = redeSocialList;
     }
 
     @Override

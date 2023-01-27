@@ -1,34 +1,44 @@
 package com.example.course_Login.service;
 
+import com.example.course_Login.entities.RedeSocial;
 import com.example.course_Login.entities.Telefone;
 import com.example.course_Login.entities.Usuario;
+import com.example.course_Login.repositories.RedeSocialRepository;
 import com.example.course_Login.repositories.TelefoneRepository;
 import com.example.course_Login.repositories.UsuarioRepository;
-import com.example.course_Login.service.exceptions.*;
+import com.example.course_Login.service.exceptions.CampoEmailVazioException;
+import com.example.course_Login.service.exceptions.ExistenteEmailException;
+import com.example.course_Login.service.exceptions.NaoEncontradoCpfException;
+import com.example.course_Login.service.exceptions.NaoEncontradoIdException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class TelefoneService {
+public class RedeSocialService {
+    @Autowired
+    private RedeSocialRepository redeSocialRepository;
     @Autowired
     private TelefoneRepository telefoneRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<Telefone> findAll() {
-        return telefoneRepository.findAll();
+    public List<RedeSocial> findAll() {
+        return redeSocialRepository.findAll();
     }
 
-    public Telefone findById(Long id) {
-        Optional<Telefone> obj = telefoneRepository.findById(id);
+    public RedeSocial findById(Long id) {
+        Optional<RedeSocial> obj = redeSocialRepository.findById(id);
         return obj.orElseThrow(() -> new NaoEncontradoIdException(id));
     }
 
-    public Telefone findByTelefone(String telefone) {
-        Optional<Telefone> obj = telefoneRepository.findByTelefone(telefone);
-        return obj.orElseThrow(() -> new NaoEncontradoCpfException(telefone));
+    public RedeSocial findByRedeSocial(String midia) {
+        Optional<RedeSocial> obj = redeSocialRepository.findyByRedeSocial(midia);
+        return obj.orElseThrow(() -> new NaoEncontradoCpfException(midia));
     }
 
     public Telefone insertTelefone(Telefone bodyTelefone) {
