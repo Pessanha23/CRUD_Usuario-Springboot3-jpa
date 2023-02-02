@@ -4,12 +4,8 @@ import com.example.course_Login.entities.RedeSocial;
 import com.example.course_Login.entities.Telefone;
 import com.example.course_Login.entities.Usuario;
 import com.example.course_Login.repositories.RedeSocialRepository;
-import com.example.course_Login.repositories.TelefoneRepository;
 import com.example.course_Login.repositories.UsuarioRepository;
-import com.example.course_Login.service.exceptions.CampoEmailVazioException;
-import com.example.course_Login.service.exceptions.ExistenteEmailException;
-import com.example.course_Login.service.exceptions.NaoEncontradoCpfException;
-import com.example.course_Login.service.exceptions.NaoEncontradoIdException;
+import com.example.course_Login.service.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +18,7 @@ import java.util.Set;
 public class RedeSocialService {
     @Autowired
     private RedeSocialRepository redeSocialRepository;
-    @Autowired
-    private TelefoneRepository telefoneRepository;
+
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -31,122 +26,104 @@ public class RedeSocialService {
         return redeSocialRepository.findAll();
     }
 
-    public RedeSocial findById(Long id) {
-        Optional<RedeSocial> obj = redeSocialRepository.findById(id);
-        return obj.orElseThrow(() -> new NaoEncontradoIdException(id));
+
+    public List<RedeSocial> findBySocial(String obj) {
+        List<RedeSocial> redeSocialLista = redeSocialRepository.findAll();
+        List<RedeSocial> novaListaSocial = new ArrayList<>();
+
+        if (redeSocialLista.isEmpty()) {
+            throw new NaoEncontradoIdException(obj);
+        }
+
+        for (RedeSocial redeSocial : redeSocialLista) {
+            if (obj.equals(redeSocial.getMidia())) {
+                novaListaSocial.add(redeSocial);
+            }
+        }
+
+        return novaListaSocial;
     }
 
-    public RedeSocial findByRedeSocial(String midia) {
-        Optional<RedeSocial> obj = redeSocialRepository.findyByRedeSocial(midia);
-        return obj.orElseThrow(() -> new NaoEncontradoCpfException(midia));
-    }
-
-    public Telefone insertTelefone(Telefone bodyTelefone) {
-
-        Long listaTelefoneBody = bodyTelefone.getNovoId();
-        Optional<Usuario> buscarId = usuarioRepository.findById(listaTelefoneBody);
-        Usuario usuario = buscarId.orElseThrow(() -> new NaoEncontradoIdException(bodyTelefone.getNovoId()));
-
-        Set<Telefone> listaBanco = usuario.getTelefoneSet();
-        Telefone recebaTelefone = new Telefone();
-        Telefone retornoVazio = new Telefone();
-
+    public boolean findId(String obj) {
+        List<RedeSocial> redeSocials = redeSocialRepository.findAll();
+        List<RedeSocial> novaListSocial = new ArrayList<>();
         boolean encontrado = false;
 
-        for (Telefone telefone1 : listaBanco) {
-            if (telefone1.getTelefone().equals(bodyTelefone.getTelefone()) || bodyTelefone.getTelefone().length() != 9) {
+        if (redeSocials.isEmpty()) {
+            throw new NaoEncontradoIdException(obj);
+        }
+
+        for (RedeSocial redeSocial : redeSocials) {
+            if (obj.equals(redeSocial.getMidia())) {
+                novaListSocial.add(redeSocial);
                 encontrado = true;
-                return retornoVazio;
             }
         }
-        recebaTelefone = bodyTelefone;
-        listaBanco.add(bodyTelefone);
-        bodyTelefone.setUsuario(usuario);
-
-        return telefoneRepository.save(recebaTelefone);
+        return encontrado;
     }
 
-    public List<Telefone> insertTelefoneMultiples(List<Telefone> bodyTelefone) {
+    public List<RedeSocial> insertRedeSocialMultiples(List<RedeSocial> bodyRedeSocial, Long usuarioId) {
 
-        Telefone primeiroTelefone = bodyTelefone.get(0);
-        Long novoId = primeiroTelefone.getNovoId();
+        Optional<Usuario> usuarioIdBanco = usuarioRepository.findById(usuarioId);
+        Usuario usuarioSet = usuarioIdBanco.orElseThrow(() -> new NaoEncontradoIdException(usuarioId));
+        usuarioSet = usuarioIdBanco.get();
 
-        for (Telefone telefone : bodyTelefone) {
-            if (telefone.getNovoId().equals(novoId)) {
-                novoId = telefone.getNovoId();
+        List<RedeSocial> listaString = new ArrayList<>();
+        Usuario redeSocialNaLista = usuarioIdBanco.get();
+        Set<RedeSocial> listaSocialBanco = redeSocialNaLista.getRedeSocialList();
+        List<RedeSocial> newList = new ArrayList<>();
+        boolean encontrado = false;
+
+        for (RedeSocial body2 : bodyRedeSocial) {
+            if (newList.isEmpty()) {
+                newList.add(body2);
             } else {
-                throw new NaoEncontradoIdException(telefone.getNovoId());
+                for (RedeSocial listaCopiaSocial : newList) {
+                    if (body2.getMidia().equals(listaCopiaSocial.getMidia())) {
+                        throw new ExistenteRedeSocialException(listaCopiaSocial.getMidia());
+                    }
+                }
+                newList.add(body2);
             }
         }
 
-        Optional<Usuario> usuarioId = usuarioRepository.findById(novoId);
-        Long finalNovoId = novoId;
-        Usuario usuarioSet = usuarioId.orElseThrow(() -> new NaoEncontradoIdException(finalNovoId));
-        usuarioSet = usuarioId.get();
-
-        List<Telefone> listaString = new ArrayList<>();
-        Usuario telefoneNaLista = usuarioId.get();
-        Set<Telefone> listaTelBanco = telefoneNaLista.getTelefoneSet();
-        boolean encontrado = false;
-
-        for (Telefone body : bodyTelefone) {
-            for (Telefone bancoTel : listaTelBanco) {
-                if (bancoTel.getTelefone().equals(body.getTelefone()) || body.getTelefone().length() != 9) {
+        for (RedeSocial body : bodyRedeSocial) {
+            for (RedeSocial bancoRede : listaSocialBanco) {
+                if (bancoRede.getMidia().equals(body.getMidia())) {
                     encontrado = true;
                     break;
                 }
             }
             if (!encontrado) {
                 listaString.add(body);
-                listaTelBanco.add(body);
+                listaSocialBanco.add(body);
                 body.setUsuario(usuarioSet);
             }
             encontrado = false;
         }
 
-        /*Metodo, nao eficaz mas para casos de transformar um tipo de String, orientação a objeto isso!!!!!
-        List<Telefone> lastDanceList = new ArrayList<>();
-        for (String s : listaString) {
-            Telefone teste = new Telefone();
-            teste.setTelefone(s);
-            teste.setNovoId(bodyTelefone.get(0).getNovoId());
-            teste.setUsuario(novoUsuario);
-            lastDanceList.add(teste);
-        }*/
-
-        return telefoneRepository.saveAll(listaString);
+        return redeSocialRepository.saveAll(listaString);
     }
 
-    public void delete(Long id) {
-        telefoneRepository.deleteById(id);
-    }
+    public List<RedeSocial> update(Long id, List<RedeSocial> bodyRedeSocial) {
 
-    public Telefone update(Long id, Telefone obj) {
-        List<Telefone> todosUsuarios = telefoneRepository.findAll();
-        Optional<Telefone> optionalContatoUsuario = telefoneRepository.findById(id);
+        Optional<Usuario> usuarioId = usuarioRepository.findById(id);
+        usuarioId.orElseThrow(() -> new NaoEncontradoIdException(id));
+        Usuario redeSocialNaLista = usuarioId.get();
+        Set<RedeSocial> listaSocialBanco = redeSocialNaLista.getRedeSocialList();
 
-        if (optionalContatoUsuario.isEmpty()) {
-            throw new NaoEncontradoIdException(id);
-        }
-        if (obj.getTelefone().isBlank()) {
-            throw new CampoEmailVazioException(obj);
-        }
-        if (!obj.getTelefone().equals(9)) {
-            throw new CampoEmailVazioException(obj);
-        }
-        for (Telefone todosUsuario : todosUsuarios) {
-            if (!todosUsuario.getId().equals(id)) {
-                if ((obj.getTelefone().equals(todosUsuario.getTelefone()))) {
-                    throw new ExistenteEmailException(obj);
+        for (RedeSocial body : bodyRedeSocial) {
+            for (RedeSocial bancoSocial : listaSocialBanco) {
+                if (body.getMidia().equals(bancoSocial.getMidia())) {
+                    if (!body.getLinkRede().equals(bancoSocial.getLinkRede()) && !body.getLinkRede().isBlank()) {
+                        if (body.getLinkRede().contains("@")){
+                            bancoSocial.setLinkRede(body.getLinkRede());
+                        }
+                    }
                 }
             }
         }
-
-        updateData(optionalContatoUsuario.get(), obj);
-        return telefoneRepository.save(optionalContatoUsuario.get());
+        return redeSocialRepository.saveAll(listaSocialBanco);
     }
 
-    public void updateData(Telefone entity, Telefone obj) {
-        entity.setTelefone(obj.getTelefone());
-    }
 }

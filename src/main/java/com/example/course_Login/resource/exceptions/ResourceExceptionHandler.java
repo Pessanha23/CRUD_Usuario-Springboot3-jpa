@@ -52,6 +52,16 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @ExceptionHandler(value = {ExistenteRedeSocialException.class})
+    public ResponseEntity<StandardError> telefoneException(ExistenteRedeSocialException e, HttpServletRequest request) {
+        String error = "EXISTING REDE SOCIAL";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(Instant.now(), status.value(),
+                error, e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(err);
+    }
+
 
     //ler novamente site adicionado nos favoritos
 

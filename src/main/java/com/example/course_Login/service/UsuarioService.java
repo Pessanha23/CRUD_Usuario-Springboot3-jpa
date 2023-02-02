@@ -1,7 +1,9 @@
 package com.example.course_Login.service;
 
+import com.example.course_Login.entities.RedeSocial;
 import com.example.course_Login.entities.Telefone;
 import com.example.course_Login.entities.Usuario;
+import com.example.course_Login.repositories.RedeSocialRepository;
 import com.example.course_Login.repositories.TelefoneRepository;
 import com.example.course_Login.repositories.UsuarioRepository;
 import com.example.course_Login.service.exceptions.*;
@@ -16,10 +18,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
-
     @Autowired
     private TelefoneRepository telefoneRepository;
-
+    @Autowired
+    private RedeSocialRepository redeSocialRepository;
 
     public List<Usuario> findAll() {
         return repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
@@ -30,7 +32,6 @@ public class UsuarioService {
         List<Usuario> usuarioCopiaLista = new ArrayList<>();
 
         for (Usuario usuario : usuarioList) {
-
             boolean usuarioSemTelefone = usuario.getTelefoneSet().isEmpty();
             if (!usuarioSemTelefone) {
                 usuarioCopiaLista.add(usuario);
@@ -63,7 +64,6 @@ public class UsuarioService {
         return usuarioCopiaLista;
     }
 
-
     public Usuario findById(Long id) {
         Optional<Usuario> obj = repository.findById(id);
         return obj.orElseThrow(() -> new NaoEncontradoIdException(id));
@@ -81,7 +81,6 @@ public class UsuarioService {
 
     public Usuario insert(Usuario obj) {
         List<Usuario> todosUsuarios = repository.findAll();
-        List<Telefone> telefoneList = telefoneRepository.findAll();
 
         if (obj.getEmail().isBlank()) {
             throw new CampoEmailVazioException(obj);
@@ -117,13 +116,9 @@ public class UsuarioService {
 
         for (Telefone telefone : listaTelefonica) {
             telefone.setUsuario(obj);
-
             if (telefone.getTelefone().length() != 9) {
                 throw new InvalidoTelefoneException(obj);
             }
-        }
-
-        for (Telefone telefone : listaTelefonica) {
             if (listaVivo.isEmpty()) {
                 listaVivo.add(telefone);
             } else {
@@ -135,6 +130,25 @@ public class UsuarioService {
                 listaVivo.add(telefone);
             }
         }
+
+        Set<RedeSocial> redeSocialList = obj.getRedeSocialList();
+        List<RedeSocial> redeSocialsNewList = new ArrayList<>();
+
+        for (RedeSocial social : redeSocialList) {
+            social.setUsuario(obj);
+            if (redeSocialsNewList.isEmpty()){
+                redeSocialsNewList.add(social);
+            }else {
+                for (RedeSocial redeSocial : redeSocialsNewList) {
+                    if (social.getMidia().equals(redeSocial.getMidia())){
+                        throw new ExistenteRedeSocialException(obj); // TODO: 30/01/2023 Adicionar Excpetion
+                    }
+                }
+                redeSocialsNewList.add(social);
+            }
+
+        }
+
 
         /*-Metodo igual ao de cima, com lambda
         listaTelefonica.forEach(telefone -> {telefone.setUsuario(obj);});

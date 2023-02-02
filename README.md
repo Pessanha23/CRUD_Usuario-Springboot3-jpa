@@ -74,24 +74,23 @@ DATA: 24/01/2022
 * Pergunta do pardal: TelefoneResource;
 
 **TASK BY: PARDAL**
-DATA: 26/01/2022
+DATA: 27/01/2022
 * 1°Desafio: Rede Social
 * REGRAS GERAIS:
-* Regra: Criar um endpoint com filtro de usuarios de toda rede social, service, controller, e repository
-* Usuario pode ter apenas um rede social de cada;
+* Regra: Criar um endpoint da classe rede social, service, controller, e repository
+* Usuario pode ter apenas uma rede social de cada;
 * Terá que ter uma edição para a rede social cadastrada, e apagar uma rede que o cliente queira apagar
 
-* endpoint: (get)buscar rede social de todos usuarios com red
-* endpoint: (get)buscar rede social por cada rede social, retornando todos usuarios com link e rede social daquele endpoint
+* endpoint: (get)buscar rede social de todos usuarios com rede (CHECK)
+* endpoint: (get)buscar rede social por cada rede social, retornando todas as redes sociais com link e rede social daquele endpoint (CHECK)
 
-* enpoints: (post usuario) cadastro da usuario service
-* * Regra: Não pode ter mais de um link por rede social, mas pode cadastrar quantas redes quiser;
+* enpoints: (post usuario) cadastro da usuario service (CHECK)
+* * Regra: Não pode ter mais de um link por rede social, mas pode cadastrar quantas redes quiser;(CHECK)
 
-* endpoint: (post multiplas) redes sociais
-* * Regra: Deverá editar por multiplus;
-* Regra: O usuario pode passar quantas redes sociais e links que quiser, mas apenas um link por rede;
-* * Regra: Não pode ter mais de um link por rede social;
-* Regra: O usuario pode passar quantas redes sociais e links que quiser, mas apenas um link por rede;
+* endpoint: (post multiplas) redes sociais,apenas cadastra, não edita ou apaga(CHECK)
+* * Regra: Deverá editar por multiplus; (CHECK)
+* Regra: O usuario pode passar quantas redes sociais e links que quiser, mas apenas um link por rede;(CHECK)
+* * Regra: Não pode ter mais de um link por rede social;(CHECK)
 
 * endpoint: editar redes sociais no caso ele pode apenas editar o link
 * * Regra: Deverá editar por multiplus;
@@ -102,6 +101,12 @@ DATA: 26/01/2022
 * * Regra: Deverá editar por multiplus;
 * * Regra: apenas um enpoint, para apagar multiplos, verifique qual a melhor maneira;
 * * Regra: Ele pode apagar quantas redes sociais ele quiser, em apenas 
+
+* PLUS: Rede Social, GitHub deverá retornar a quantidade de repositorios, no caso inserido manual, e caso diminua a quantidade ou aumente deverá
+editar atualizar a quantidade de repositorios;
+* PLUS: Lidar com arquivos posicionais, 
+* PLUS: Transações ACID;
+
 
 
 * 

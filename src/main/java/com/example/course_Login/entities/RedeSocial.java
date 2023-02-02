@@ -13,7 +13,7 @@ public class RedeSocial {
     private String midia;
     private String linkRede;
     @Transient
-    private Long novoId;
+    private transient Long novoId;
     @JsonIgnore
     @ManyToOne
     private Usuario usuario;
