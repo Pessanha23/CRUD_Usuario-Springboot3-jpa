@@ -114,16 +114,56 @@ public class RedeSocialService {
 
         for (RedeSocial body : bodyRedeSocial) {
             for (RedeSocial bancoSocial : listaSocialBanco) {
-                if (body.getMidia().equals(bancoSocial.getMidia())) {
-                    if (!body.getLinkRede().equals(bancoSocial.getLinkRede()) && !body.getLinkRede().isBlank()) {
-                        if (body.getLinkRede().contains("@")){
-                            bancoSocial.setLinkRede(body.getLinkRede());
-                        }
-                    }
+                if (validaUpdate(bancoSocial, body)) {
+                    updateData(bancoSocial, body);
+                    // outra maneira, simplificando a void, mas a void é....
+                    // ...uma outra maneira -> bancoSocial.setLinkRede(body.getLinkRede());
+
                 }
             }
         }
         return redeSocialRepository.saveAll(listaSocialBanco);
+    }
+
+    private void updateData(RedeSocial bancoRedeSocial, RedeSocial bodyRedeSocial) {
+        bancoRedeSocial.setLinkRede(bodyRedeSocial.getLinkRede());
+    }
+
+    private boolean validaUpdate(RedeSocial bancoRedeSocial, RedeSocial bodyRedeSocial) {
+
+        boolean midiaIgual = bodyRedeSocial.getMidia().equals(bancoRedeSocial.getMidia());
+        boolean linkEmBranco = bodyRedeSocial.getLinkRede().isBlank();
+        boolean linkRedeIgual = bodyRedeSocial.getLinkRede().equals(bancoRedeSocial.getLinkRede());
+        boolean LinkContem = bodyRedeSocial.getLinkRede().contains("@");
+
+        //1° maneira de realizar mais simplificada
+        // usar mais
+        if (midiaIgual && !linkRedeIgual && !linkEmBranco && LinkContem) {
+            return true;
+        }
+
+        //2° maneira de realizar mais simplificada, mas sem utilizar o && após fechamento de metodo
+        if (midiaIgual) {
+            if (!linkRedeIgual && !linkEmBranco) {
+                if (LinkContem) {
+                    return true;
+                }
+            }
+        }
+
+            /* 3° outra maneira. importante = Esse condição mostra,
+            como simplificar diversos if's e diminuir o numero de conchetes, a ideia é utilizar o
+        && após o fechamento de uma condição
+             */
+        if (bodyRedeSocial.getMidia().equals(bancoRedeSocial.getMidia()) &&
+                !bodyRedeSocial.getLinkRede().equals(bancoRedeSocial.getLinkRede()) && !bodyRedeSocial.getLinkRede().isBlank() &&
+                bodyRedeSocial.getLinkRede().contains("@")) {
+            return true;
+        }
+
+
+
+        return false;
     }
 
 }
