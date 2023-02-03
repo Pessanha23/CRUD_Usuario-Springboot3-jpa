@@ -44,4 +44,11 @@ public class RedeSocialResource {
         return ResponseEntity.ok().body(redeSocialsController);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+
+        redeSocialService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

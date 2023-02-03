@@ -150,7 +150,6 @@ public class RedeSocialService {
                 }
             }
         }
-
             /* 3° outra maneira. importante = Esse condição mostra,
             como simplificar diversos if's e diminuir o numero de conchetes, a ideia é utilizar o
         && após o fechamento de uma condição
@@ -161,9 +160,13 @@ public class RedeSocialService {
             return true;
         }
 
-
-
         return false;
     }
 
+    public void delete(Long id) {
+
+        Optional<RedeSocial> redeSocialId = redeSocialRepository.findById(id);
+        RedeSocial RedeSocialSet = redeSocialId.orElseThrow(() -> new NaoEncontradoIdException(id));
+        redeSocialRepository.deleteById(id);
+    }
 }
