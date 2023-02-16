@@ -24,7 +24,7 @@ public class RedeSocialResource {
         List<RedeSocial> list = redeSocialService.findAll();
         return ResponseEntity.ok().body(list);
     }
-
+//    http://localhost:8080/redesocial/findRedeSocial?midia=
     @GetMapping(value = "/findRedeSocial")
     public ResponseEntity<List<RedeSocial>> buscarRedeSocial(@RequestParam String midia) {
         List<RedeSocial> redeSocialList = redeSocialService.findBySocial(midia);

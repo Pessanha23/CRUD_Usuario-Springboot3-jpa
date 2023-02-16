@@ -30,8 +30,7 @@ public class TelefoneResource {
         return ResponseEntity.ok().body(obj);
     }
     /*
-    http://localhost:8080/telefones/3
-    find?telefone=negao.pessanga@gmail.com
+    http://localhost:8080/telefones/findTelefone?telefone=
      */
     @GetMapping(value = "/findTelefone")
     public ResponseEntity<Telefone> buscarTelefone(@RequestParam String telefone){
