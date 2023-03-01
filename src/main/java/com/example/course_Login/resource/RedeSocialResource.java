@@ -19,24 +19,25 @@ public class RedeSocialResource {
     @Autowired
     public RedeSocialService redeSocialService;
 
-    @GetMapping
-    public ResponseEntity<List<RedeSocial>> findAll() {
-        List<RedeSocial> list = redeSocialService.findAll();
+    @GetMapping //localhost:8080/redesocial?midia=Linkedin
+    public ResponseEntity<List<RedeSocial>> findAll(@RequestParam(value = "midia", required = false) String midia) {
+        List<RedeSocial> list;
+        if (midia != null){
+            list = redeSocialService.findBySocial(midia);
+            return ResponseEntity.ok().body(list);
+        } else {
+            list = redeSocialService.findAll();
+        }
+
         return ResponseEntity.ok().body(list);
     }
-//    http://localhost:8080/redesocial/findRedeSocial?midia=
-    @GetMapping(value = "/findRedeSocial")
-    public ResponseEntity<List<RedeSocial>> buscarRedeSocial(@RequestParam String midia) {
-        List<RedeSocial> redeSocialList = redeSocialService.findBySocial(midia);
-        return ResponseEntity.ok().body(redeSocialList);
-    }
 
-    @PostMapping(value = "/multiplosRedeSocial")
-    public ResponseEntity <List<RedeSocial>> insertRedeSocialMultiples(@RequestBody List<RedeSocial> socialList,
-            @RequestParam Long usuarioId ) {
-        List<RedeSocial> redeSocialsController = redeSocialService.insertRedeSocialMultiples(socialList, usuarioId);
-        return ResponseEntity.ok().body(redeSocialsController);
-    }
+//    @PostMapping(value = "/multiplosRedeSocial")
+//    public ResponseEntity <List<RedeSocial>> insertRedeSocialMultiples(@RequestBody List<RedeSocial> socialList,
+//            @RequestParam Long usuarioId ) {
+//        List<RedeSocial> redeSocialsController = redeSocialService.insertRedeSocialMultiples(socialList, usuarioId);
+//        return ResponseEntity.ok().body(redeSocialsController);
+//    }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity <List<RedeSocial>> updateRedeSocial(@PathVariable Long id, @RequestBody List<RedeSocial> redeSocial){
@@ -46,7 +47,6 @@ public class RedeSocialResource {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
-
         redeSocialService.delete(id);
         return ResponseEntity.noContent().build();
     }

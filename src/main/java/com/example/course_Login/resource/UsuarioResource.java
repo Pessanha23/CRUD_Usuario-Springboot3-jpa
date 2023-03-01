@@ -1,14 +1,20 @@
 package com.example.course_Login.resource;
 
+import com.example.course_Login.entities.RedeSocial;
+import com.example.course_Login.entities.Telefone;
 import com.example.course_Login.entities.Usuario;
+import com.example.course_Login.service.RedeSocialService;
+import com.example.course_Login.service.TelefoneService;
 import com.example.course_Login.service.UsuarioService;
 import com.example.course_Login.service.exceptions.NaoEncontradoCpfException;
 import com.example.course_Login.service.exceptions.NaoEncontradoEmailException;
 import com.example.course_Login.service.exceptions.NaoEncontradoIdException;
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +34,11 @@ public class UsuarioResource {
     @Autowired
     public UsuarioService service;
 
+    @Autowired
+    public TelefoneService telefoneService;
+    @Autowired
+    public RedeSocialService redeSocialService;
+
     @GetMapping
     public ResponseEntity<List<Usuario>> findAll(@RequestParam(value = "email", required = false) String email,
                                                  @RequestParam(value = "cpf", required = false) String cpf,
@@ -36,27 +47,19 @@ public class UsuarioResource {
         if (cpfpar == null)
             cpfpar = false;
 
-        if (email != null) {
-            try {  //http://localhost:8080/usuarios?email=matheus@gmail.com
-                list = Collections.singletonList(service.findByEmail(email));
-                return ResponseEntity.ok().body(list);
-            } catch (NaoEncontradoEmailException e) {
-                throw new NaoEncontradoEmailException(e.getMessage());
-            }
+        if (email != null) { //http://localhost:8080/usuarios?email=matheus@gmail.com
+
+            list = Collections.singletonList(service.findByEmail(email));
+            return ResponseEntity.ok().body(list);
+
         } else if (cpf != null) { //http://localhost:8080/usuarios?cpf=87275093030
-            try {
-                list = Collections.singletonList(service.findByCpf(cpf));
-                return ResponseEntity.ok().body(list);
-            } catch (NaoEncontradoCpfException e) {
-                throw new NaoEncontradoCpfException(e.getMessage());
-            }
+            list = Collections.singletonList(service.findByCpf(cpf));
+            return ResponseEntity.ok().body(list);
+
         } else if (cpfpar) { //http://localhost:8080/usuarios?cpfpar=true
-            try {
-                list = service.findAllCpfPar();
-                return ResponseEntity.ok().body(list);
-            } catch (NaoEncontradoCpfException e) {
-                throw new NaoEncontradoCpfException(e.getMessage());
-            }
+            list = service.findAllCpfPar();
+            return ResponseEntity.ok().body(list);
+
         } else {
             list = service.findAll();
         }
@@ -74,18 +77,29 @@ public class UsuarioResource {
         }
     }
 
-    @GetMapping(value = "/usuarioTelefone")
-    public ResponseEntity<List<Usuario>> findAllTelefone() {
-        List<Usuario> list = service.findAllTelefone();
-        return ResponseEntity.ok().body(list);
-    }
-
     @PostMapping
     public ResponseEntity<Usuario> insert(@RequestBody @Validated Usuario obj) {
         Usuario objeto;
         objeto = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(objeto);
+    }
+
+    @PostMapping(path = "/{id}/telefones") //localhost:8080/usuarios/59/telefones
+    public ResponseEntity<Telefone> insertTelefone(@PathVariable(value = "id") Long id, @RequestBody Telefone telefone) {
+        Telefone objeto;
+        objeto = telefoneService.insertTelefone(id, telefone);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objeto.getId()).toUri();
+        return ResponseEntity.created(uri).body(objeto);
+    }
+
+    @PostMapping(path = "/{id}/redesocial") //localhost:8080/usuarios/59/redesocial
+    public ResponseEntity<List<RedeSocial>> insertRedeSocialMultiples(@PathVariable(value = "id") Long id,
+                                                                      @RequestBody List<RedeSocial> bodyRedeSocial) {
+        List<RedeSocial> social;
+        social = redeSocialService.insertRedeSocialMultiples(bodyRedeSocial, id);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(social).toUri();
+        return ResponseEntity.created(uri).body(social);
     }
 
     @PutMapping(value = "/{id}")

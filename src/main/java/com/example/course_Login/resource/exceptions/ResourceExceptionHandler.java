@@ -62,9 +62,7 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-
     //ler novamente site adicionado nos favoritos
-
     @ExceptionHandler(value = {NaoEncontradoIdException.class})
     public ResponseEntity<StandardError> idNotFoundException(NaoEncontradoIdException e, HttpServletRequest request) {
         String error = "ID NOT FOUND";

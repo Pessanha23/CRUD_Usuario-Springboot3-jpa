@@ -27,24 +27,6 @@ public class UsuarioService {
         return repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
-    public List<Usuario> findAllTelefone() {
-        List<Usuario> usuarioList = repository.findAll();
-        List<Usuario> usuarioCopiaLista = new ArrayList<>();
-
-        for (Usuario usuario : usuarioList) {
-            boolean usuarioSemTelefone = usuario.getTelefoneSet().isEmpty();
-            if (!usuarioSemTelefone) {
-                usuarioCopiaLista.add(usuario);
-            }
-        }
-
-        if (usuarioCopiaLista.size() == 0) {
-            throw new NaoEncontradoTelefoneException(usuarioList);
-        }
-
-        return usuarioCopiaLista;
-    }
-
     public List<Usuario> findAllCpfPar() {
         List<Usuario> usuarioList = repository.findAll();
         List<Usuario> usuarioCopiaLista = new ArrayList<>();

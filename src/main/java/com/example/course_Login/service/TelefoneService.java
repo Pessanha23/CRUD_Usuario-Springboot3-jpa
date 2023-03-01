@@ -26,85 +26,34 @@ public class TelefoneService {
         return obj.orElseThrow(() -> new NaoEncontradoIdException(id));
     }
 
-    public Telefone findByTelefone(String telefone) {
-        Optional<Telefone> obj = telefoneRepository.findByTelefone(telefone);
-        return obj.orElseThrow(() -> new NaoEncontradoCpfException(telefone));
+    public List<Telefone> findByTelefone(String telefone) {
+        boolean encontrado = false;
+        List<Telefone> byTelefone = telefoneRepository.findByTelefone(telefone);
+        if (byTelefone.size() == 0){
+            throw new NaoEncontradoTelefoneException(telefone);
+        }
+        return byTelefone;
     }
 
-    public Telefone insertTelefone(Telefone bodyTelefone) {
+    public Telefone insertTelefone(Long id, Telefone bodyTelefone) {
 
-        Long listaTelefoneBody = bodyTelefone.getNovoId();
-        Optional<Usuario> buscarId = usuarioRepository.findById(listaTelefoneBody);
+        Optional<Usuario> buscarId = usuarioRepository.findById(id);
         Usuario usuario = buscarId.orElseThrow(() -> new NaoEncontradoIdException(bodyTelefone.getNovoId()));
 
         Set<Telefone> listaBanco = usuario.getTelefoneSet();
-        Telefone recebaTelefone = new Telefone();
-        Telefone retornoVazio = new Telefone();
-
-        boolean encontrado = false;
+        Telefone recebaTelefone;
 
         for (Telefone telefone1 : listaBanco) {
             if (telefone1.getTelefone().equals(bodyTelefone.getTelefone()) || bodyTelefone.getTelefone().length() != 9) {
-                encontrado = true;
-                return retornoVazio;
+                throw new InvalidoTelefoneException(bodyTelefone);
             }
         }
-        recebaTelefone = bodyTelefone;
-        listaBanco.add(bodyTelefone);
-        bodyTelefone.setUsuario(usuario);
+
+            recebaTelefone = bodyTelefone;
+            listaBanco.add(bodyTelefone);
+            bodyTelefone.setUsuario(usuario);
 
         return telefoneRepository.save(recebaTelefone);
-    }
-
-    public List<Telefone> insertTelefoneMultiples(List<Telefone> bodyTelefone) {
-
-        Telefone primeiroTelefone = bodyTelefone.get(0);
-        Long novoId = primeiroTelefone.getNovoId();
-
-        for (Telefone telefone : bodyTelefone) {
-            if (telefone.getNovoId().equals(novoId)) {
-                novoId = telefone.getNovoId();
-            } else {
-                throw new NaoEncontradoIdException(telefone.getNovoId());
-            }
-        }
-
-        Optional<Usuario> usuarioId = usuarioRepository.findById(novoId);
-        Long finalNovoId = novoId;
-        Usuario usuarioSet = usuarioId.orElseThrow(() -> new NaoEncontradoIdException(finalNovoId));
-        usuarioSet = usuarioId.get();
-
-        List<Telefone> listaString = new ArrayList<>();
-        Usuario telefoneNaLista = usuarioId.get();
-        Set<Telefone> listaTelBanco = telefoneNaLista.getTelefoneSet();
-        boolean encontrado = false;
-
-        for (Telefone body : bodyTelefone) {
-            for (Telefone bancoTel : listaTelBanco) {
-                if (bancoTel.getTelefone().equals(body.getTelefone()) || body.getTelefone().length() != 9) {
-                    encontrado = true;
-                    break;
-                }
-            }
-            if (!encontrado) {
-                listaString.add(body);
-                listaTelBanco.add(body);
-                body.setUsuario(usuarioSet);
-            }
-            encontrado = false;
-        }
-
-        /*Metodo, nao eficaz mas para casos de transformar um tipo de String, orientação a objeto isso!!!!!
-        List<Telefone> lastDanceList = new ArrayList<>();
-        for (String s : listaString) {
-            Telefone teste = new Telefone();
-            teste.setTelefone(s);
-            teste.setNovoId(bodyTelefone.get(0).getNovoId());
-            teste.setUsuario(novoUsuario);
-            lastDanceList.add(teste);
-        }*/
-
-        return telefoneRepository.saveAll(listaString);
     }
 
     public void delete(Long id) {
