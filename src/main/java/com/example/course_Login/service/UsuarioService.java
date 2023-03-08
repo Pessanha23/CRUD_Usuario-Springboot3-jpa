@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class UsuarioService {
@@ -54,16 +53,17 @@ public class UsuarioService {
     public Usuario findByEmail(String email) {
         Optional<Usuario> obj = repository.findByEmail(email);
         return obj.orElseThrow(() -> new NaoEncontradoEmailException(email));
+
     }
 
     public Usuario findByCpf(String cpf) {
         Optional<Usuario> obj = repository.findByCpf(cpf);
         return obj.orElseThrow(() -> new NaoEncontradoCpfException(cpf));
+
     }
 
     public Usuario insert(Usuario obj) {
         List<Usuario> todosUsuarios = repository.findAll();
-
         if (obj.getEmail().isBlank()) {
             throw new CampoEmailVazioException(obj);
         }
@@ -98,7 +98,7 @@ public class UsuarioService {
 
         for (Telefone telefone : listaTelefonica) {
             telefone.setUsuario(obj);
-            if (telefone.getTelefone().length() != 9) {
+            if (telefone.getTelefone().length() != 8) {
                 throw new InvalidoTelefoneException(obj);
             }
             if (listaVivo.isEmpty()) {
@@ -130,7 +130,7 @@ public class UsuarioService {
             }
 
         }
-
+        return repository.save(obj);
 
         /*-Metodo igual ao de cima, com lambda
         listaTelefonica.forEach(telefone -> {telefone.setUsuario(obj);});
@@ -145,7 +145,7 @@ public class UsuarioService {
         Set<Telefone> teste3 = Set.of(t2, t1);
         obj.setTelefoneSet(teste3);
         */
-        return repository.save(obj);
+
     }
 
     public void delete(Long id) {
