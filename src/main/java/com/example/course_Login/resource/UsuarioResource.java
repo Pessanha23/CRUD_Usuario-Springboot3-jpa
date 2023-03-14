@@ -6,25 +6,16 @@ import com.example.course_Login.entities.Usuario;
 import com.example.course_Login.service.RedeSocialService;
 import com.example.course_Login.service.TelefoneService;
 import com.example.course_Login.service.UsuarioService;
-import com.example.course_Login.service.exceptions.NaoEncontradoCpfException;
-import com.example.course_Login.service.exceptions.NaoEncontradoEmailException;
 import com.example.course_Login.service.exceptions.NaoEncontradoIdException;
-import com.fasterxml.jackson.annotation.JsonView;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -109,7 +100,7 @@ public class UsuarioResource {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id, @RequestBody Usuario obj) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
