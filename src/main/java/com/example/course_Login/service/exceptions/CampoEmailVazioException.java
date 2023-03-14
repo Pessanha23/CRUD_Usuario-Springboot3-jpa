@@ -1,8 +1,8 @@
 package com.example.course_Login.service.exceptions;
 
-public class CampoEmailVazioException extends RuntimeException {
+public class CampoEmailVazioException extends BadRequestException {
 
     public CampoEmailVazioException(Object email) {
-        super("CAMPO EMAIL VAZIO");
+        super("CAMPO EMAIL VAZIO","EMAIL IS NULL");
     }
 }

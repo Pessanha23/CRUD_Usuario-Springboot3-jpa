@@ -1,8 +1,8 @@
 package com.example.course_Login.service.exceptions;
 
-public class InvalidoTelefoneException extends RuntimeException {
+public class InvalidoTelefoneException extends BadRequestException {
 
     public InvalidoTelefoneException(Object telefoneSet){
-        super("TELEFONE INVÁLIDO");
+        super("TELEFONE INVÁLIDO","INVALID TELEFONE");
     }
 }
