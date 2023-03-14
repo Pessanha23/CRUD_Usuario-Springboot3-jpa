@@ -8,6 +8,7 @@ import com.example.course_Login.repositories.TelefoneRepository;
 import com.example.course_Login.repositories.UsuarioRepository;
 import com.example.course_Login.service.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -118,11 +119,11 @@ public class UsuarioService {
 
         for (RedeSocial social : redeSocialList) {
             social.setUsuario(obj);
-            if (redeSocialsNewList.isEmpty()){
+            if (redeSocialsNewList.isEmpty()) {
                 redeSocialsNewList.add(social);
-            }else {
+            } else {
                 for (RedeSocial redeSocial : redeSocialsNewList) {
-                    if (social.getMidia().equals(redeSocial.getMidia())){
+                    if (social.getMidia().equals(redeSocial.getMidia())) {
                         throw new ExistenteRedeSocialException(obj); // TODO: 30/01/2023 Adicionar Excpetion
                     }
                 }
@@ -149,7 +150,11 @@ public class UsuarioService {
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NaoEncontradoIdException(id);
+        }
     }
 
     public Usuario update(Long id, Usuario obj) {
