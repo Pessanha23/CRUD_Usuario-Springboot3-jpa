@@ -24,7 +24,6 @@ public class UsuarioResource {
 
     @Autowired
     public UsuarioService service;
-
     @Autowired
     public TelefoneService telefoneService;
     @Autowired
@@ -39,7 +38,6 @@ public class UsuarioResource {
             cpfpar = false;
 
         if (email != null) { //http://localhost:8080/usuarios?email=matheus@gmail.com
-
             list = Collections.singletonList(service.findByEmail(email));
             return ResponseEntity.ok().body(list);
 
