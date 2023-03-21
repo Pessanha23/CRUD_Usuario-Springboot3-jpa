@@ -202,7 +202,7 @@ class UsuarioServiceTest {
         redeSocialSet.add(primeiroRedeSocialUsuario);
         primeiroUsuario.setRedeSocialList(redeSocialSet);
 
-        Mockito.when(repository.save(Mockito.any())).thenReturn((primeiroUsuario));
+        Mockito.when(repository.save(Mockito.any())).thenReturn(primeiroUsuario);
 
         Usuario atual = usuarioService.insert(primeiroUsuario);
 

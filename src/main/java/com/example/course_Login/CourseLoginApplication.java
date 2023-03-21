@@ -2,7 +2,6 @@ package com.example.course_Login;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 @SpringBootApplication
 public class CourseLoginApplication {
 
