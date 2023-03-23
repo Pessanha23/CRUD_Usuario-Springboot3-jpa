@@ -44,7 +44,7 @@ public class TelefoneService {
         Telefone recebaTelefone;
 
         for (Telefone telefone1 : listaBanco) {
-            if (telefone1.getTelefone().equals(bodyTelefone.getTelefone()) || bodyTelefone.getTelefone().length() != 9) {
+            if (telefone1.getTelefone().equals(bodyTelefone.getTelefone()) || bodyTelefone.getTelefone().length() != 8) {
                 throw new InvalidoTelefoneException(bodyTelefone);
             }
         }
@@ -70,7 +70,7 @@ public class TelefoneService {
         if (obj.getTelefone().isBlank()) {
             throw new CampoEmailVazioException(obj);
         }
-        if (!obj.getTelefone().equals(9)) {
+        if (!obj.getTelefone().equals(8)) {
             throw new CampoEmailVazioException(obj);
         }
         for (Telefone todosUsuario : todosUsuarios) {
