@@ -3,8 +3,6 @@ package com.example.course_Login;
 import com.example.course_Login.entities.RedeSocial;
 import com.example.course_Login.entities.Telefone;
 import com.example.course_Login.entities.Usuario;
-import com.example.course_Login.repositories.RedeSocialRepository;
-import com.example.course_Login.repositories.TelefoneRepository;
 import com.example.course_Login.repositories.UsuarioRepository;
 import com.example.course_Login.service.UsuarioService;
 import com.example.course_Login.service.exceptions.*;
@@ -31,10 +29,6 @@ class UsuarioServiceTest {
     private UsuarioService usuarioService;
     @Mock
     private UsuarioRepository repository;
-    @Mock
-    private TelefoneRepository telefoneRepository;
-    @Mock
-    private RedeSocialRepository redeSocialRepository;
 
     @BeforeEach
     public void setup() {
