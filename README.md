@@ -1,98 +1,141 @@
-# INSTRUÇÕES DE ATIVIDADES PARA ELABORAÇÃO DO CRUD
+# POC
+Essa é uma POC de uma aplicação utilizando Java 17 com [Spring Boot](https://spring.io/projects/spring-boot) e uma base
+de dados [PostgreSQL](https://www.postgresql.org/). para rodas as
+depêndencias externas foi utilizado o [Docker](https://www.docker.com/).
+
+## Conceito
+A idéia é construir uma API REST de cadastro de usuário, onde cada usuário deverá cadastrar alguns atributos como cpf, email, senha, telefone e midia social que , similar a um cadastro de login de um nov usuário. Utilizando boas práticas de código, testes e refatoração de código, padrões API REST para elaboração de uma URL.
+API para cadastro de um usuário, onde cada usuário deve cadastrar:
+- email
+- senha
+- confirmação de senha
+- cpf
+- lista de telefones
+- lista de rede social
+
+## Stack
+- Java 17
+- Spring boot 3
+- PostgreSQL
+- Postman
+- Docker file
+- API REST
+
+## Estrutura do projeto
+A estrutura do projeto foi criada baseada em alguns exemplos de DDD como
+o [ddd-by-example](https://github.com/joolu/ddd-sample) e de Arquitetura Hexagonal como
+o [Netflix](https://netflixtechblog.com/ready-for-changes-with-hexagonal-architecture-b315ec967749).
+Basicamente temos 3 camadas:
+* **application**: Camada responsável por expor os endpoints da API e receber as requisições.
+* **domain**: Camada responsável por conter as regras de negócio e os domínios da aplicação.
+* **infrastructure**: Camada responsável por conter as implementações de infraestrutura como banco de dados, mensageria,
+  etc.
+
+## Testes
+![img.png](img.png)
+### Unitários
+Os testes unitários são os testes mais simples e rápidos de serem executados.
+Devem mockar todas as dependências externas a classe que está sendo testada.  
+Eles são utilizados em diversas camadas da aplicação, mas principalmente na camada de **domain**.
+
+- **application**: Testes unitários dos *mappers*
+- **domain**: Testes unitários dos *models* e *services*
+- **infrastructure**: Testes unitários dos *mappers*
+
+### Integração
+
+Os testes de integração são utilizados para integrações com serviços externos, como banco de dados e APIs. Utilizando Mock Mvc para fazer a cobertura da integração entre os frameworks.
+
+## POSTMAN
+GET
+- Retorna uma lista de todos os usuarios cadastrados. 
+http://localhost:8080/usuarios
+- Retorna o cadastro de um usuario procurado pelo endereço de email cadastrado. 
+ http://localhost:8080/usuarios?email=matheus@gmail.com  
+- Retorna o cadastro de um usuario procurado pelo cpf cadastrado. 
+http://localhost:8080/usuarios?cpf=87275093030 
+- Retorna uma lista de todos os usuarios cadastrados com cpf par. 
+http://localhost:8080/usuarios?cpfpar=true 
+- Retorna o cadastro de um usuario procurado pelo id gerado após cadastro. 
+http://localhost:8080/usuarios/1
+- Retorna uma lista de todos telefones cadastrados. 
+http://localhost:8080/telefones
+- Retorna o cadastrado apenas daquele telefone fornecido como parametro na URI. 
+http://localhost:8080/telefones?telefone=666666666
+- Retorna uma lista de todos telefones cadastrados.
+  http://localhost:8080/redesocial
+- Retorna o cadastrado apenas daquele telefone fornecido como parametro na URI.
+  http://localhost:8080/redesocial?midia=Linkedin
+
+POST
+
+- Cadastro de usuário. 
+http://localhost:8080/usuarios
+- Cadastro de um telefone ou mais, para um usuário.
+http://localhost:8080/usuarios/1/telefones
+- Cadastro de uma rede social ou mais, para um usuário.
+http://localhost:8080/usuarios/1/redesocial
+
+PUT
+- Atualização de usuário.
+http://localhost:8080/usuarios/1
+- Atualização de telefone de usuário.
+http://localhost:8080/telefones/1
+- Atualização de lista de rede social. 
+http://localhost:8080/redesocial/1
+
+DELETE
+- Apagar usuario cadastrado atráves do id passado como parametro na URI. 
+http://localhost:8080/usuarios/1
+
+## Exemplos para testar
+### 201 OK
+Request
+```
+{
+    "email": "gamiguel@gmail.com",
+    "senha": "shazam",
+    "confirmacaoSenha": "shazam",
+    "cpf": "59358995076",
+    "telefoneSet": [
+        {
+            "telefone": "22222222"
+        }
+    ],
+    "redeSocialList":[
+        {
+             "midia": "Linkedin",
+            "linkRede": "@Gamiguel"
+        }
+    ]
+}
+```
+
+Response
+```
+{
+    "id": 1,
+    "email": "gamiguel@gmail.com",
+    "senha": "shazam",
+    "confirmacaoSenha": "shazam",
+    "cpf": "59358995076",
+    "telefoneSet": [
+        {
+            "id": 1,
+            "telefone": "22222222",
+            "novoId": null
+        }
+    ],
+    "redeSocialList": [
+        {
+            "id": 1,
+            "midia": "Linkedin",
+            "linkRede": "@Gamiguel",
+            "novoId": null
+        }
+    ]
+}
+```
 
 
-**Tecnologias utilizadas**
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" width="100px" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original-wordmark.svg" width="100px" /><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original-wordmark.svg" width="100px" /><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="100px" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original-wordmark.svg" width="100px" /> 
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original-wordmark.svg" width="100px" />
-
-
-**TASKS PARA DESENVOLVIMENTO DO CRUD USUARIO**
-DATA: 26/12/2022
-* 1°Desafio: Ajustar campo senha na atualizacao p/ que possa repetir a mesma senha anterior do usuario, mesmo nao podendo colocar a senha similar de novos usuarios; (CHECK)
-* 2°Desafio: Buscar pelo endereço do localhost o campo email; (CHECK)
-* 3°Desafio: Quando atualizar com a mesma senha, email, ou confirmacao de email, devera retornar 200(Sucessfull) o Json; (CHECK)
-* 4°Desafio: Se algum dos campos estiver vazio devera retornar um erro; (CHECK)
-* 5°Desafio: Reduzir, o Handler, ou seja, diminuir a quantidade de metodos de tratativas de erro para apenas um ou dois, criar uma logica que atenda a maioria dos erros e retorne Sucessfull;
-* 6°Desafio: Ajustar os erros dos exemplos abaixo;(CHECK)
-
-**TASK BY: PARDAL**
-DATA: 01/01/2022
-
-* 1°Desafio: Corrigir "error" dos exemplos acima, que na msg devolva a mensagem de "error" acima;(CHECK)
-* 2°Desafio: Diminuir @ExceptionHanlder apenas um metodo, mas que atenda diferentes tipos de error;
-  * Rever Herança para resolver a diminuição de @ExceptionHandler;(TENTAR)
-  * Rever a parte de Exceptions;(TENTAR)
-* 3°Desafio: Adicionar campo cpf, conforme email, senha e confirmação, repetir busca, erros, lógica, com o novo campo cpf;(CHECK)
-
-**TASK BY: PARDAL**
-DATA: 06/01/2022
-
-* 1°Desafio: Melhorar a lógica de geração do CPF, para ver se é válido (procurar a regra);(CHECK)
-* 2°Desafio: Cadastrar diversos telefone para cada usuario (na hora do cadastro, no post, posso cadastrar todos de uma só vez), mas 
-  * adicionar endpoint para atualizar, um endpoint a parte só para atualizar os telefones;(CHECK)
-* 3°Desafio: Criar um endpoint para apenas ler os telefones cadastrados do usuario e um endpoint a parte com relação a deletar;(CHECK)
-
-**TASK BY: PARDAL**
-DATA: 12/01/2022
-
-* 1°Desafio: Retornar telefone cadastrado pelo TelefoneService(insert), mas não pode passar apenas o telefone e cadastrar, tem que 
-  * cadastrar e linkar com o id do usuario;(CHECK / MAS REVER ISSO)
-* 2° Desafio: Retornar apenas usuarios que contém telefone, no novo endpoint get;(CHECK)
-  * Retornar erro ao não ter nenhum usuario com telefone;(CHECK)
-* 3° Desafio: Retornar apenas usuarios com o cpf, com o final par;(CHECK)
-* 4° Desafio: Retornar um erro caso o telefone cadastrado seja igual ao numero de telefone cadastro na base de dados (em todo lugar
-  * que manipula o telefone deverá haver essa regra); (CHECK)
-  * Adicionar campo de limitação de telefone para 10 numeros(fazer a logica);(CHECK)
-  * Aplicar erro se o numero de telefone cadastrado for igual, algum outro já cadastrado pelo post/telefone;(CHECK)
-* 5° Desafio: Atualizar telefone, metodo update; (ADIADO)
-
-**TASK BY: PARDAL**
-DATA: 24/01/2022
-* 1°Desafio: Fazer o endpoint do telefones, receber mais de um cadastro de telefone, pro **mesmo usuário;** (CHECK)
-  * PS: Endpoint deverá continuar funcionando, e você deverá criar um novo endpoint;(CHECK)
-* 2°Desafio: Continuação do desafio acima. Não pode dar erro cadastrar um telefone repetido.
-  * Exemplo: Se um telefone foi cadastrado no inicio e ao cadastrar novamente novos telefones, um deles deverá ser cadastrado 
-  * e o número repetido no endpoint telefones, deverá apenas não ser cadastrado, não retornado um novo erro;(CHECK)
-* 3°Desafio: O sistema de cadastro de telefone, no geral não pdoe retornar erro com número cadastrado repetido;(CHECK)
-* 4° Desafio: No caso do único endpoint de telefone, que apenas cadastra um telefone, ele deve cadastrar mas apenas substituir o 
-  * duplicado, ele não pode adicionar outro numero duplicado, no getfinal não pode aparecer telefones duplicados;(CHECK)
-* Pergunta do pardal: TelefoneResource;
-
-**TASK BY: PARDAL**
-DATA: 27/01/2022
-* 1°Desafio: Rede Social
-* REGRAS GERAIS:
-* Regra: Criar um endpoint da classe rede social, service, controller, e repository
-* Usuario pode ter apenas uma rede social de cada;
-* Terá que ter uma edição para a rede social cadastrada, e apagar uma rede que o cliente queira apagar
-
-* endpoint: (get)buscar rede social de todos usuarios com rede (CHECK)
-* endpoint: (get)buscar rede social por cada rede social, retornando todas as redes sociais com link e rede social daquele endpoint (CHECK)
-
-* enpoints: (post usuario) cadastro da usuario service (CHECK)
-* * Regra: Não pode ter mais de um link por rede social, mas pode cadastrar quantas redes quiser;(CHECK)
-
-* endpoint: (post multiplas) redes sociais,apenas cadastra, não edita ou apaga(CHECK)
-* * Regra: Deverá editar por multiplus; (CHECK)
-* Regra: O usuario pode passar quantas redes sociais e links que quiser, mas apenas um link por rede;(CHECK)
-* * Regra: Não pode ter mais de um link por rede social;(CHECK)
-
-* endpoint: editar redes sociais no caso ele pode apenas editar o link
-* * Regra: Deverá editar por multiplus;
-* * Regra: Apenas editar o link, não pode editar o nome da Rede Social;
-* * Regra: Apenas editar o link,não pode adicionar ou apagar;
-
-* endpoint: apagar rede social
-* * Regra: Deverá editar por multiplus;
-* * Regra: apenas um enpoint, para apagar multiplos, verifique qual a melhor maneira;
-* * Regra: Ele pode apagar quantas redes sociais ele quiser, em apenas 
-
-* PLUS: Rede Social, GitHub deverá retornar a quantidade de repositorios, no caso inserido manual, e caso diminua a quantidade ou aumente deverá
-editar atualizar a quantidade de repositorios;
-* PLUS: Lidar com arquivos posicionais, 
-* PLUS: Transações ACID;
-
-
-
-* 

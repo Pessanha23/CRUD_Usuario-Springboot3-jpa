@@ -1,15 +1,11 @@
 package com.example.course_Login.resource;
 
 import com.example.course_Login.entities.RedeSocial;
-import com.example.course_Login.entities.Telefone;
-import com.example.course_Login.entities.Usuario;
 import com.example.course_Login.service.RedeSocialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -31,13 +27,6 @@ public class RedeSocialResource {
 
         return ResponseEntity.ok().body(list);
     }
-
-//    @PostMapping(value = "/multiplosRedeSocial")
-//    public ResponseEntity <List<RedeSocial>> insertRedeSocialMultiples(@RequestBody List<RedeSocial> socialList,
-//            @RequestParam Long usuarioId ) {
-//        List<RedeSocial> redeSocialsController = redeSocialService.insertRedeSocialMultiples(socialList, usuarioId);
-//        return ResponseEntity.ok().body(redeSocialsController);
-//    }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity <List<RedeSocial>> updateRedeSocial(@PathVariable Long id, @RequestBody List<RedeSocial> redeSocial){
