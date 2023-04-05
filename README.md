@@ -1,10 +1,10 @@
 # POC
 Essa é uma POC de uma aplicação utilizando Java 17 com [Spring Boot](https://spring.io/projects/spring-boot) e uma base
-de dados [PostgreSQL](https://www.postgresql.org/). para rodas as
-depêndencias externas foi utilizado o [Docker](https://www.docker.com/).
+de dados [PostgreSQL](https://www.postgresql.org/). para rodas as depêndencias externas foi utilizado o [Docker](https://www.docker.com/). Para os testes foram utilizados o [JUnit](https://junit.org/junit5/) e [Mockito](https://site.mockito.org/). E para
+facilitar a geração de dados para os testes unitários e de integração foi utilizado [MockMVC](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/web/servlet/MockMvc.html)
 
 ## Conceito
-A idéia é construir uma API REST de cadastro de usuário, onde cada usuário deverá cadastrar alguns atributos como cpf, email, senha, telefone e midia social que , similar a um cadastro de login de um nov usuário. Utilizando boas práticas de código, testes e refatoração de código, padrões API REST para elaboração de uma URL.
+A idéia é construir uma API REST de cadastro de usuário, onde cada usuário deverá cadastrar alguns atributos como cpf, email, senha, telefone e midia social que , similar a um cadastro de login de um novo usuário. Utilizando boas práticas de código, testes e refatoração de código, padrões API REST para elaboração de uma URL.
 API para cadastro de um usuário, onde cada usuário deve cadastrar:
 - email
 - senha
@@ -26,9 +26,9 @@ A estrutura do projeto foi criada baseada em alguns exemplos de DDD como
 o [ddd-by-example](https://github.com/joolu/ddd-sample) e de Arquitetura Hexagonal como
 o [Netflix](https://netflixtechblog.com/ready-for-changes-with-hexagonal-architecture-b315ec967749).
 Basicamente temos 3 camadas:
-* **application**: Camada responsável por expor os endpoints da API e receber as requisições.
-* **domain**: Camada responsável por conter as regras de negócio e os domínios da aplicação.
-* **infrastructure**: Camada responsável por conter as implementações de infraestrutura como banco de dados, mensageria,
+* **resource**: Camada responsável por expor os endpoints da API e receber as requisições.
+* **service**: Camada responsável por conter as regras de negócio e os domínios da aplicação.
+* **repository**: Camada responsável por conter as implementações de infraestrutura como banco de dados, mensageria,
   etc.
 
 ## Testes
@@ -36,57 +36,19 @@ Basicamente temos 3 camadas:
 ### Unitários
 Os testes unitários são os testes mais simples e rápidos de serem executados.
 Devem mockar todas as dependências externas a classe que está sendo testada.  
-Eles são utilizados em diversas camadas da aplicação, mas principalmente na camada de **domain**.
+Eles são utilizados em diversas camadas da aplicação, mas principalmente na camada de **service**.
 
-- **application**: Testes unitários dos *mappers*
-- **domain**: Testes unitários dos *models* e *services*
-- **infrastructure**: Testes unitários dos *mappers*
+- **service**: Testes unitários dos *models* e *services*
 
 ### Integração
 
 Os testes de integração são utilizados para integrações com serviços externos, como banco de dados e APIs. Utilizando Mock Mvc para fazer a cobertura da integração entre os frameworks.
+- **resource**: Testes integrados dos *controllers* e *repository*
 
-## POSTMAN
-GET
-- Retorna uma lista de todos os usuarios cadastrados. 
-http://localhost:8080/usuarios
-- Retorna o cadastro de um usuario procurado pelo endereço de email cadastrado. 
- http://localhost:8080/usuarios?email=matheus@gmail.com  
-- Retorna o cadastro de um usuario procurado pelo cpf cadastrado. 
-http://localhost:8080/usuarios?cpf=87275093030 
-- Retorna uma lista de todos os usuarios cadastrados com cpf par. 
-http://localhost:8080/usuarios?cpfpar=true 
-- Retorna o cadastro de um usuario procurado pelo id gerado após cadastro. 
-http://localhost:8080/usuarios/1
-- Retorna uma lista de todos telefones cadastrados. 
-http://localhost:8080/telefones
-- Retorna o cadastrado apenas daquele telefone fornecido como parametro na URI. 
-http://localhost:8080/telefones?telefone=666666666
-- Retorna uma lista de todos telefones cadastrados.
-  http://localhost:8080/redesocial
-- Retorna o cadastrado apenas daquele telefone fornecido como parametro na URI.
-  http://localhost:8080/redesocial?midia=Linkedin
-
-POST
-
-- Cadastro de usuário. 
-http://localhost:8080/usuarios
-- Cadastro de um telefone ou mais, para um usuário.
-http://localhost:8080/usuarios/1/telefones
-- Cadastro de uma rede social ou mais, para um usuário.
-http://localhost:8080/usuarios/1/redesocial
-
-PUT
-- Atualização de usuário.
-http://localhost:8080/usuarios/1
-- Atualização de telefone de usuário.
-http://localhost:8080/telefones/1
-- Atualização de lista de rede social. 
-http://localhost:8080/redesocial/1
-
-DELETE
-- Apagar usuario cadastrado atráves do id passado como parametro na URI. 
-http://localhost:8080/usuarios/1
+## SWAGGER
+http://localhost:8080/swagger-ui/index.html
+![img_1.png](img_1.png)
+![img_2.png](img_2.png)
 
 ## Exemplos para testar
 ### 201 OK

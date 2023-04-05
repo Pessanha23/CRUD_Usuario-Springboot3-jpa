@@ -9,7 +9,6 @@ import com.example.course_Login.service.UsuarioService;
 import com.example.course_Login.service.exceptions.NaoEncontradoIdException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -67,7 +66,7 @@ public class UsuarioResource {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> insert(@RequestBody @Validated Usuario obj) {
+    public ResponseEntity<Usuario> insert(@RequestBody Usuario obj) {
         Usuario objeto;
         objeto = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
