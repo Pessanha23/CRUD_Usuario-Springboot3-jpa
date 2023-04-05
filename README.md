@@ -99,5 +99,14 @@ Response
 }
 ```
 
+## DOCKER
+```
+mvn clean
+mvn package
+docker build -t usuario-imagem .
+docker run -p 8080:8080 -d usuario-imagem
+docker ps
+```
+
 
 
