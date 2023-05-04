@@ -10,7 +10,7 @@ API para cadastro de um usuário, onde cada usuário deve cadastrar:
 - senha
 - confirmação de senha
 - cpf
-- lista de telefones
+- lista de telefones 
 - lista de rede social 
 
 ## Stack
