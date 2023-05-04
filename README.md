@@ -11,7 +11,7 @@ API para cadastro de um usuário, onde cada usuário deve cadastrar:
 - confirmação de senha
 - cpf
 - lista de telefones
-- lista de rede social
+- lista de rede social 
 
 ## Stack
 - Java 17
