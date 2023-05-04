@@ -1,4 +1,7 @@
-# POC ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Pessanha23/CRUD_Usuario-Springboot3-jpa/maven.yml)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Pessanha23/CRUD_Usuario-Springboot3-jpa/maven.yml)
+![GitHub Workflow Status](https://img.shields.io/github/repo-size/Pessanha23/CRUD_Usuario-Springboot3-jpa)
+
+# POC 
 Essa é uma POC de uma aplicação utilizando Java 17 com [Spring Boot](https://spring.io/projects/spring-boot) e uma base
 de dados [PostgreSQL](https://www.postgresql.org/). para rodas as depêndencias externas foi utilizado o [Docker](https://www.docker.com/). Para os testes foram utilizados o [JUnit](https://junit.org/junit5/) e [Mockito](https://site.mockito.org/). E para
 facilitar a geração de dados para os testes unitários e de integração foi utilizado [MockMVC](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/web/servlet/MockMvc.html)
